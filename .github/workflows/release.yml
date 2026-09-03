@@ -68,13 +68,14 @@ jobs:
         with:
           name: ${{ steps.title.outputs.name }}
           body: |
-            ## What's new
+            ## Deutsche Fassung
 
-            - **Config backup on first launch** — optional welcome step that snapshots your existing Espanso setup. The `config` and `match` folders are renamed to `config_backup` and `match_backup`, then copied back as working folders, so nested files and extra YAML stay intact
-            - **Safer match editing** — recursive match files, `_manifest.yml` package metadata, `espanso path config` for a custom config dir, and YAML keys like `imports` preserved on save
-            - **Snippets polish** — newest snippets first, word-boundary hint for bare-word triggers, and dashboard paths wrap inside the card
+            Fork von [djekanovic/espanso-gui](https://github.com/djekanovic/espanso-gui)
+            mit vollständig ins Deutsche übersetzter Oberfläche. Espanso-Fachbegriffe
+            (Snippet, Trigger, Match, Backend) bleiben unverändert.
 
-            > Builds are unsigned — Windows SmartScreen and macOS Gatekeeper will warn on first launch.
+            > Die Builds sind nicht signiert — Windows SmartScreen und macOS Gatekeeper
+            > warnen beim ersten Start.
           files: |
             release/*.exe
             release/*.dmg

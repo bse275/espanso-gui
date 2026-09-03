@@ -1,9 +1,10 @@
 {
   "name": "espanso-gui",
-  "version": "1.2.0",
-  "releaseHeadline": "new backup screen and improvements",
-  "description": "Open source GUI for espanso text expander",
+  "version": "1.2.0-de.1",
+  "releaseHeadline": "Deutsche Übersetzung der Oberfläche",
+  "description": "Open source GUI for the espanso text expander — German fork",
   "main": "electron/main.js",
+  "repository": "github:bse275/espanso-gui",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -33,7 +34,7 @@
     "wait-on": "^8.0.1"
   },
   "build": {
-    "appId": "io.github.djekanovic.espanso-gui",
+    "appId": "io.github.bse275.espanso-gui",
     "productName": "Espanso GUI",
     "publish": null,
     "files": [
@@ -72,7 +73,7 @@
     "linux": {
       "icon": "build/icon.png",
       "category": "Utility",
-      "maintainer": "djekanovic <dimitrijedjekanovic@gmail.com>",
+      "maintainer": "bse275 <236335008+bse275@users.noreply.github.com>",
       "target": [
         { "target": "AppImage", "arch": ["x64"] },
         { "target": "deb", "arch": ["x64"] }

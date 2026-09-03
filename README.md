@@ -6,6 +6,16 @@
 
 ![License](https://img.shields.io/badge/license-GPLv3-blue) ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blue)
 
+## German fork
+
+This repository is a fork of [djekanovic/espanso-gui](https://github.com/djekanovic/espanso-gui).
+
+**Changes made in this fork (GPLv3 §5a):**
+
+- **2026-09-03** — Full German translation of the user interface (all views, dialogs, tooltips, toast messages and onboarding). espanso terminology such as *Snippet*, *Trigger*, *Match* and *Backend* is kept untranslated; `index.html` is set to `lang="de"`.
+
+All original copyright and the GPL-3.0-or-later license are retained. Upstream is tracked as the `upstream` remote; fixes from there are cherry-picked as needed.
+
 ## Screenshots
 
 | Dashboard | Snippets |
@@ -75,7 +85,7 @@ xattr -cr "/Applications/Espanso GUI.app"
 ### Setup
 
 ```bash
-git clone https://github.com/djekanovic/espanso-gui.git
+git clone https://github.com/bse275/espanso-gui.git
 cd espanso-gui
 npm install
 ```
@@ -99,8 +109,14 @@ On Windows (cmd), the second line becomes `set VITE_DEV_SERVER_URL=http://localh
 
 ```bash
 npm run build   # build the renderer
-npm run dist    # package a Windows exe (installer + portable) into release/
+npm run dist    # package the app into release/ for the current OS
 ```
+
+`npm run dist` only builds for the platform it runs on — on Linux you get an
+`.AppImage` and a `.deb`, on macOS a `.dmg`, on Windows the `.exe` installer +
+portable. To build all three at once, push a tag (`git tag v1.2.0-de && git push
+origin v1.2.0-de`) or run the **Release** workflow manually from the Actions tab;
+it builds each platform on its own runner and uploads the artifacts.
 
 ## Usage
 
@@ -129,6 +145,10 @@ Issues and PRs welcome. This is a young project maintained in spare time — ple
 ## License
 
 GNU General Public License v3.0 (or later) — see [LICENSE](LICENSE)
+
+Original work © the espanso-gui authors. Modifications in this fork © 2026 its
+contributors, released under the same license. See [German fork](#german-fork)
+for the list of changes.
 
 ## Related
 
