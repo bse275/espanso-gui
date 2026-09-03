@@ -71,7 +71,7 @@
       "artifactName": "EspansoGUI-${arch}.dmg"
     },
     "linux": {
-      "icon": "build/icon.png",
+      "icon": "build/icons",
       "category": "Utility",
       "maintainer": "bse275 <236335008+bse275@users.noreply.github.com>",
       "target": [
