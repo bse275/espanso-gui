@@ -156,15 +156,15 @@ function FormFieldsEditor({
   return (
     <div>
       <div className="flex items-center justify-between mb-3">
-        <div className="text-sm text-secondary">Fields</div>
+        <div className="text-sm text-secondary">Felder</div>
         <button className="btn btn-sm" onClick={addField}>
-          <IoAddOutline size={12} /> Add Field
+          <IoAddOutline size={12} /> Feld hinzufügen
         </button>
       </div>
       {Object.keys(fields).length === 0 ? (
         <div className="text-xs text-muted">
-          Add a field to get started - each one shows up in the dialog in order, using its Label
-          as the prompt text.
+          Füge ein Feld hinzu, um loszulegen – jedes erscheint der Reihe nach im Dialog und nutzt
+          seine Bezeichnung als Beschriftung.
         </div>
       ) : (
         <div className="flex flex-col gap-2">
@@ -176,13 +176,13 @@ function FormFieldsEditor({
                 <button
                   className="btn btn-icon btn-sm"
                   onClick={() => removeField(name)}
-                  title="Delete field"
+                  title="Feld löschen"
                 >
                   <IoTrashOutline size={14} color="var(--danger)" />
                 </button>
               </div>
               <div className="form-group-tight">
-                <label className="form-label">Field Type</label>
+                <label className="form-label">Feldtyp</label>
                 <select
                   className="form-select"
                   value={field.type || 'text'}
@@ -194,16 +194,16 @@ function FormFieldsEditor({
                 </select>
               </div>
               <div className="form-group-tight">
-                <label className="form-label">Field Label</label>
+                <label className="form-label">Feldbezeichnung</label>
                 <input
                   className="form-input"
-                  placeholder="Prompt shown in the form dialog"
+                  placeholder="Text, der im Formulardialog angezeigt wird"
                   value={field.label || ''}
                   onChange={e => patchField(name, { label: e.target.value })}
                 />
               </div>
               <div className="form-group-tight">
-                <label className="form-label">Var Name</label>
+                <label className="form-label">Variablenname</label>
                 <RenameInput
                   className="form-input font-mono"
                   value={name}
@@ -211,7 +211,7 @@ function FormFieldsEditor({
                 />
               </div>
               <div className="form-group-tight" style={{ marginBottom: 0 }}>
-                <label className="form-label">Default Value</label>
+                <label className="form-label">Standardwert</label>
                 <input
                   className="form-input"
                   value={field.default || ''}
@@ -220,11 +220,11 @@ function FormFieldsEditor({
               </div>
               {(field.type === 'choice' || field.type === 'list') && (
                 <div className="form-group-tight" style={{ marginTop: 10, marginBottom: 0 }}>
-                  <label className="form-label">Values (one per line)</label>
+                  <label className="form-label">Werte (einer pro Zeile)</label>
                   <textarea
                     className="form-textarea"
                     rows={2}
-                    placeholder={'Apples\nBananas\nCherries'}
+                    placeholder={'Äpfel\nBananen\nKirschen'}
                     value={field.values?.join('\n') || ''}
                     // Don't trim/filter per keystroke - splitting off a
                     // trailing empty line on every change means the moment
@@ -240,9 +240,9 @@ function FormFieldsEditor({
               {(!field.type || field.type === 'text') && (
                 <div
                   className="flex items-center gap-1 mt-2"
-                  title="Allow multiple lines in this field's answer"
+                  title="Mehrere Zeilen in der Antwort dieses Feldes erlauben"
                 >
-                  <span className="text-xs text-muted">Multiline</span>
+                  <span className="text-xs text-muted">Mehrzeilig</span>
                   <label className="toggle toggle-sm" style={{ cursor: 'pointer', marginBottom: 0 }}>
                     <input
                       type="checkbox"
@@ -277,7 +277,7 @@ function renderVarParams(name: string, varDef: VarDefinition, updateVar: (name: 
             />
           </div>
           <div className="form-group">
-            <label className="form-label">Offset (seconds)</label>
+            <label className="form-label">Versatz (Sekunden)</label>
             <input
               className="form-input"
               type="number"
@@ -293,7 +293,7 @@ function renderVarParams(name: string, varDef: VarDefinition, updateVar: (name: 
           </div>
         </div>
         <div className="text-xs text-muted" style={{ marginTop: -8 }}>
-          Offset is seconds from now. 86400 is tomorrow, -86400 is yesterday.
+          Versatz in Sekunden ab jetzt. 86400 ist morgen, -86400 ist gestern.
         </div>
         </div>
       )
@@ -301,7 +301,7 @@ function renderVarParams(name: string, varDef: VarDefinition, updateVar: (name: 
       return (
         <div>
           <div className="form-group">
-            <label className="form-label">Shell Command</label>
+            <label className="form-label">Shell-Befehl</label>
             <input
               className="form-input"
               placeholder="echo hello"
@@ -323,7 +323,7 @@ function renderVarParams(name: string, varDef: VarDefinition, updateVar: (name: 
                 updateVar(name, { params })
               }}
             >
-              <option value="">Default for this OS</option>
+              <option value="">Standard für dieses Betriebssystem</option>
               <option value="cmd">cmd (Windows)</option>
               <option value="powershell">powershell</option>
               <option value="pwsh">pwsh</option>
@@ -338,10 +338,10 @@ function renderVarParams(name: string, varDef: VarDefinition, updateVar: (name: 
     case 'echo':
       return (
         <div className="form-group">
-          <label className="form-label">Echo Text</label>
+          <label className="form-label">Echo-Text</label>
           <input
             className="form-input"
-            placeholder="Hello World"
+            placeholder="Hallo zusammen"
             value={varDef.params?.echo || ''}
             onChange={e => updateVar(name, { params: { ...varDef.params, echo: e.target.value } })}
           />
@@ -387,11 +387,11 @@ function renderVarParams(name: string, varDef: VarDefinition, updateVar: (name: 
       return (
         <div className="form-group">
           <div className="flex items-center justify-between mb-2">
-            <label className="form-label" style={{ margin: 0 }}>{isRandom ? 'Choices' : 'Values'}</label>
+            <label className="form-label" style={{ margin: 0 }}>{isRandom ? 'Auswahlmöglichkeiten' : 'Werte'}</label>
             <div className="flex gap-1">
               {!isRandom && (
                 <button type="button" className="btn btn-sm" onClick={toggleAdvanced}>
-                  {isAdvanced ? 'Use simple list' : 'Advanced (custom label)'}
+                  {isAdvanced ? 'Einfache Liste' : 'Erweitert (eigene Bezeichnung)'}
                 </button>
               )}
               <button
@@ -399,10 +399,10 @@ function renderVarParams(name: string, varDef: VarDefinition, updateVar: (name: 
                 className="btn btn-sm"
                 onClick={togglePickMode}
                 title={isRandom
-                  ? 'Show a dialog to pick a value, instead of choosing automatically'
-                  : 'Pick a value automatically at random, instead of showing a dialog'}
+                  ? 'Einen Dialog zur Auswahl anzeigen, statt automatisch zu wählen'
+                  : 'Automatisch zufällig einen Wert wählen, statt einen Dialog anzuzeigen'}
               >
-                {isRandom ? 'Show dialog instead' : 'Pick randomly instead'}
+                {isRandom ? 'Stattdessen Dialog anzeigen' : 'Stattdessen zufällig wählen'}
               </button>
             </div>
           </div>
@@ -412,7 +412,7 @@ function renderVarParams(name: string, varDef: VarDefinition, updateVar: (name: 
                 <div key={i} className="flex gap-2">
                   <input
                     className="form-input"
-                    placeholder="Label shown in the picker"
+                    placeholder="Im Dialog angezeigte Bezeichnung"
                     value={v.label || ''}
                     onChange={e => {
                       const next = [...rawList]
@@ -422,7 +422,7 @@ function renderVarParams(name: string, varDef: VarDefinition, updateVar: (name: 
                   />
                   <input
                     className="form-input font-mono"
-                    placeholder="Value inserted"
+                    placeholder="Eingefügter Wert"
                     value={v.id || ''}
                     onChange={e => {
                       const next = [...rawList]
@@ -436,7 +436,7 @@ function renderVarParams(name: string, varDef: VarDefinition, updateVar: (name: 
                 </div>
               ))}
               <button type="button" className="btn btn-sm" onClick={() => setList([...rawList, { label: '', id: '' }])}>
-                <IoAddOutline size={12} /> Add Value
+                <IoAddOutline size={12} /> Wert hinzufügen
               </button>
             </div>
           ) : (
@@ -454,10 +454,10 @@ function renderVarParams(name: string, varDef: VarDefinition, updateVar: (name: 
           )}
           <div className="text-xs text-muted mt-2">
             {isRandom
-              ? 'Picks one at random every time the trigger expands - no dialog shown.'
+              ? 'Wählt bei jeder Auslösung zufällig einen Wert – ohne Dialog.'
               : isAdvanced
-                ? 'Opens a dialog showing each Label; selecting one inserts its Value instead.'
-                : 'Opens a dialog letting you pick which value to insert.'}
+                ? 'Öffnet einen Dialog mit allen Bezeichnungen; die Auswahl fügt den zugehörigen Wert ein.'
+                : 'Öffnet einen Dialog zur Auswahl des einzufügenden Werts.'}
           </div>
         </div>
       )
@@ -465,27 +465,27 @@ function renderVarParams(name: string, varDef: VarDefinition, updateVar: (name: 
     case 'clipboard':
       // Takes no parameters at all - just inserts current clipboard content.
       return (
-        <div className="text-xs text-muted">No configuration needed - inserts the current clipboard content.</div>
+        <div className="text-xs text-muted">Keine Konfiguration nötig – fügt den aktuellen Inhalt der Zwischenablage ein.</div>
       )
     case 'script':
       // espanso key is `args`: an argv array, e.g. [python, /path/to/script.py]
       return (
         <div className="form-group">
-          <label className="form-label">Command (comma separated argv)</label>
+          <label className="form-label">Befehl (argv, kommagetrennt)</label>
           <input
             className="form-input font-mono"
-            placeholder="python, /path/to/script.py"
+            placeholder="python, /pfad/zum/skript.py"
             value={varDef.params?.args?.join(', ') || ''}
             onChange={e => updateVar(name, { params: { ...varDef.params, args: e.target.value.split(',').map(s => s.trim()).filter(Boolean) } })}
           />
           <div className="text-xs text-muted mt-2">
-            First item is the interpreter/executable, the rest are its arguments - same as an argv array.
+            Der erste Eintrag ist der Interpreter bzw. das Programm, der Rest sind seine Argumente – wie ein argv-Array.
           </div>
         </div>
       )
     default:
       return (
-        <div className="text-xs text-muted">Unrecognized extension - check the raw YAML.</div>
+        <div className="text-xs text-muted">Unbekannte Erweiterung – prüfe das rohe YAML.</div>
       )
   }
 }
@@ -525,11 +525,11 @@ export default function VarEditor({ vars, onChange, reservedNames = [], showToas
 
   const updateVarName = (oldName: string, newName: string): boolean => {
     if (!newName.trim()) {
-      showToast?.('error', 'Name can\'t be empty.')
+      showToast?.('error', 'Der Name darf nicht leer sein.')
       return false
     }
     if (newName !== oldName && (newName in vars || isReserved(newName))) {
-      showToast?.('error', `An extension named "${newName}" already exists in this file - pick a different name.`)
+      showToast?.('error', `Eine Erweiterung mit dem Namen „${newName}“ existiert bereits in dieser Datei – wähle einen anderen Namen.`)
       return false
     }
     const next: Record<string, VarDefinition> = {}
@@ -601,10 +601,10 @@ export default function VarEditor({ vars, onChange, reservedNames = [], showToas
       {!forcedSubTab && (
         <div className="tabs" style={{ marginBottom: 16 }}>
           <button className={`tab ${subTab === 'extensions' ? 'active' : ''}`} onClick={() => setSubTab('extensions')}>
-            Extensions{extensionEntries.length > 0 && ` (${extensionEntries.length})`}
+            Erweiterungen{extensionEntries.length > 0 && ` (${extensionEntries.length})`}
           </button>
           <button className={`tab ${subTab === 'forms' ? 'active' : ''}`} onClick={() => setSubTab('forms')}>
-            Forms{formEntries.length > 0 && ` (${formEntries.length})`}
+            Formulare{formEntries.length > 0 && ` (${formEntries.length})`}
           </button>
         </div>
       )}
@@ -616,23 +616,23 @@ export default function VarEditor({ vars, onChange, reservedNames = [], showToas
               <div className="empty-state-icon">
                 <IoFlashOutline size={22} />
               </div>
-              <div className="empty-state-title">No extensions yet</div>
+              <div className="empty-state-title">Noch keine Erweiterungen</div>
               <div className="empty-state-desc">
-                Extensions add dynamic content - a date, shell output, a random pick - reusable
-                as {'{{name}}'} in any snippet's Replacement Text.
+                Erweiterungen fügen dynamische Inhalte hinzu – ein Datum, Shell-Ausgabe, eine Zufallsauswahl –
+                wiederverwendbar als {'{{name}}'} im Ersetzungstext jedes Snippets.
               </div>
               <button className="btn btn-lg btn-primary" onClick={addExtension}>
-                <IoAddOutline size={16} /> Add Extension
+                <IoAddOutline size={16} /> Erweiterung hinzufügen
               </button>
             </div>
           ) : (
             <>
             <div className="flex items-center justify-between mb-3">
               <div className="text-sm text-secondary">
-                {extensionEntries.length} extension{extensionEntries.length === 1 ? '' : 's'}
+                {extensionEntries.length} {extensionEntries.length === 1 ? 'Erweiterung' : 'Erweiterungen'}
               </div>
               <button className="btn btn-sm" onClick={addExtension}>
-                <IoAddOutline size={12} /> Add Extension
+                <IoAddOutline size={12} /> Erweiterung hinzufügen
               </button>
             </div>
             <div className="flex flex-col gap-3">
@@ -680,23 +680,23 @@ export default function VarEditor({ vars, onChange, reservedNames = [], showToas
               <div className="empty-state-icon">
                 <IoListOutline size={22} />
               </div>
-              <div className="empty-state-title">No forms yet</div>
+              <div className="empty-state-title">Noch keine Formulare</div>
               <div className="empty-state-desc">
-                A form shows a fill-in dialog before a snippet expands, then inserts each
-                answered field as {'{{form.field}}'}.
+                Ein Formular zeigt vor dem Einfügen eines Snippets einen Ausfülldialog und fügt dann
+                jedes ausgefüllte Feld als {'{{form.field}}'} ein.
               </div>
               <button className="btn btn-lg btn-primary" onClick={addForm}>
-                <IoAddOutline size={16} /> Add Form
+                <IoAddOutline size={16} /> Formular hinzufügen
               </button>
             </div>
           ) : (
             <>
             <div className="flex items-center justify-between mb-3">
               <div className="text-sm text-secondary">
-                {formEntries.length} form{formEntries.length === 1 ? '' : 's'}
+                {formEntries.length} {formEntries.length === 1 ? 'Formular' : 'Formulare'}
               </div>
               <button className="btn btn-sm" onClick={addForm}>
-                <IoAddOutline size={12} /> Add Form
+                <IoAddOutline size={12} /> Formular hinzufügen
               </button>
             </div>
             <div className="flex flex-col gap-3">
@@ -712,9 +712,9 @@ export default function VarEditor({ vars, onChange, reservedNames = [], showToas
                     >
                       <div className="flex items-center gap-2">
                         {isOpen ? <IoChevronDown size={16} /> : <IoChevronForward size={16} />}
-                        <span className="font-mono" style={{ color: 'var(--accent)' }}>{name || '(unnamed)'}</span>
+                        <span className="font-mono" style={{ color: 'var(--accent)' }}>{name || '(unbenannt)'}</span>
                         <span className="text-xs text-muted">
-                          {fieldCount} field{fieldCount === 1 ? '' : 's'}
+                          {fieldCount} {fieldCount === 1 ? 'Feld' : 'Felder'}
                         </span>
                       </div>
                       <button
@@ -739,11 +739,11 @@ export default function VarEditor({ vars, onChange, reservedNames = [], showToas
                           onChange={next => updateVar(name, { params: { ...varDef.params, fields: next, layout: buildLayoutFromFields(next) } })}
                         />
                         <div className="text-xs text-muted mt-3">
-                          Reference a submitted field elsewhere with {'{{' + name + '.field_name}}'}.
+                          Verweise anderswo auf ein ausgefülltes Feld mit {'{{' + name + '.field_name}}'}.
                         </div>
                         {varDef.params?.layout && (
                           <div className="form-group mt-3">
-                            <label className="form-label">Preview</label>
+                            <label className="form-label">Vorschau</label>
                             <pre
                               className="font-mono text-xs"
                               style={{

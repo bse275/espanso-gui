@@ -168,7 +168,7 @@ export default function MatchEditor({ match, isNew, globalVars, onSave, onCancel
     const cleanTriggers = triggers.map(t => t.trim()).filter(t => t.length > 0)
 
     if (!useRegex && cleanTriggers.length === 0) {
-      showToast('error', 'At least one trigger is required')
+      showToast('error', 'Mindestens ein Trigger ist erforderlich')
       return
     }
 
@@ -208,10 +208,10 @@ export default function MatchEditor({ match, isNew, globalVars, onSave, onCancel
     if (!useRegex && !word) {
       const bare = cleanTriggers.filter(isBareWordTrigger)
       if (bare.length > 0) {
-        const shown = bare.map(t => `"${t}"`).join(', ')
+        const shown = bare.map(t => `„${t}“`).join(', ')
         showToast(
           'info',
-          `${shown} has no prefix like : or /. Turn on Word Boundary (Advanced) so it doesn't expand inside other words.`
+          `${shown} hat kein Präfix wie : oder /. Aktiviere die Wortgrenze (Erweitert), damit es nicht innerhalb anderer Wörter ausgelöst wird.`
         )
       }
     }
@@ -221,15 +221,15 @@ export default function MatchEditor({ match, isNew, globalVars, onSave, onCancel
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
     { id: 'snippet', label: 'Snippet', icon: <IoTextOutline size={14} /> },
-    { id: 'extensions', label: 'Extensions', icon: <IoFlashOutline size={14} /> },
-    { id: 'advanced', label: 'Advanced', icon: <IoOptionsOutline size={14} /> }
+    { id: 'extensions', label: 'Erweiterungen', icon: <IoFlashOutline size={14} /> },
+    { id: 'advanced', label: 'Erweitert', icon: <IoOptionsOutline size={14} /> }
   ]
 
   return (
     <div className="modal-overlay" onClick={onCancel}>
       <div className="modal" style={{ maxWidth: 720 }} onClick={e => e.stopPropagation()}>
         <div className="modal-header">
-          <div className="modal-title">{isNew ? 'New Snippet' : 'Edit Snippet'}</div>
+          <div className="modal-title">{isNew ? 'Neues Snippet' : 'Snippet bearbeiten'}</div>
           <button className="btn btn-icon btn-sm" onClick={onCancel}>
             <IoCloseOutline size={16} />
           </button>
@@ -253,7 +253,7 @@ export default function MatchEditor({ match, isNew, globalVars, onSave, onCancel
           {tab === 'snippet' && (
             <div>
               <div className="form-group">
-                <label className="form-label">Triggers</label>
+                <label className="form-label">Trigger</label>
                 {triggers.map((trigger, i) => (
                   <div key={i} className="form-input-group mb-2">
                     <input
@@ -270,16 +270,16 @@ export default function MatchEditor({ match, isNew, globalVars, onSave, onCancel
                   </div>
                 ))}
                 <button className="btn btn-sm" onClick={addTrigger}>
-                  <IoAddOutline size={12} /> Add Trigger
+                  <IoAddOutline size={12} /> Trigger hinzufügen
                 </button>
                 {!useRegex && !word && triggers.some(isBareWordTrigger) && (
                   <div className="word-boundary-hint">
                     <IoInformationCircleOutline size={16} />
                     <span>
-                      {triggers.filter(isBareWordTrigger).map(t => t.trim()).filter(Boolean)[0] || 'This trigger'} has no prefix like : or /. Enable Word Boundary so it doesn't fire inside other words.
+                      {triggers.filter(isBareWordTrigger).map(t => t.trim()).filter(Boolean)[0] || 'Dieser Trigger'} hat kein Präfix wie : oder /. Aktiviere die Wortgrenze, damit er nicht innerhalb anderer Wörter ausgelöst wird.
                     </span>
                     <button className="btn btn-sm btn-primary" onClick={() => setWord(true)}>
-                      Enable
+                      Aktivieren
                     </button>
                   </div>
                 )}
@@ -287,44 +287,44 @@ export default function MatchEditor({ match, isNew, globalVars, onSave, onCancel
 
               <div className="form-group">
                 <div className="flex items-center justify-between mb-2">
-                  <label className="form-label" style={{ margin: 0 }}>Replacement Text</label>
+                  <label className="form-label" style={{ margin: 0 }}>Ersetzungstext</label>
                   <div className="flex gap-1">
                     <button
                       type="button"
                       className={`btn btn-sm ${newlineMode === 'preserve' ? 'btn-primary' : ''}`}
-                      title="New lines in the text below become real line breaks in the expansion"
+                      title="Zeilenumbrüche im Text unten werden zu echten Umbrüchen in der Ersetzung"
                       onClick={() => setNewlineMode('preserve')}
                     >
-                      <IoReturnDownBackOutline size={12} /> Keep line breaks
+                      <IoReturnDownBackOutline size={12} /> Umbrüche behalten
                     </button>
                     <button
                       type="button"
                       className={`btn btn-sm ${newlineMode === 'join' ? 'btn-primary' : ''}`}
-                      title="New lines in the text below are joined with a space when saved"
+                      title="Zeilenumbrüche im Text unten werden beim Speichern durch ein Leerzeichen ersetzt"
                       onClick={() => setNewlineMode('join')}
                     >
-                      <IoRemoveOutline size={12} /> Join as spaces
+                      <IoRemoveOutline size={12} /> Zu Leerzeichen
                     </button>
                   </div>
                 </div>
                 <textarea
                   ref={replaceRef}
                   className="form-textarea"
-                  placeholder="Text to insert when trigger is typed..."
+                  placeholder="Text, der beim Tippen des Triggers eingefügt wird …"
                   value={replace}
                   onChange={e => setReplace(e.target.value)}
                   rows={5}
                 />
                 <div className="flex items-center gap-2 mt-2" style={{ flexWrap: 'wrap' }}>
-                  <span className="text-xs text-muted">Insert:</span>
+                  <span className="text-xs text-muted">Einfügen:</span>
                   <button
                     type="button"
                     className="btn btn-sm font-mono"
                     style={{ fontSize: 11 }}
-                    title="Insert cursor position hint ($|$) at cursor - controls where the cursor ends up after expansion"
+                    title="Cursor-Position ($|$) an der Einfügemarke einsetzen – bestimmt, wo der Cursor nach der Ersetzung steht"
                     onClick={() => insertAtCursor('$|$')}
                   >
-                    $|$ cursor
+                    $|$ Cursor
                   </button>
                   {insertableRefs.map(r => (
                     <button
@@ -332,7 +332,7 @@ export default function MatchEditor({ match, isNew, globalVars, onSave, onCancel
                       type="button"
                       className="btn btn-sm font-mono"
                       style={{ fontSize: 11 }}
-                      title={`Insert ${r.value} at cursor`}
+                      title={`${r.value} an der Einfügemarke einsetzen`}
                       onClick={() => insertAtCursor(r.value)}
                     >
                       {r.value}
@@ -340,16 +340,16 @@ export default function MatchEditor({ match, isNew, globalVars, onSave, onCancel
                   ))}
                 </div>
                 <div className="text-xs text-muted mt-2">
-                  Use {'{{var_name}}'} for an extension, or {'{{form_name.field}}'} for a form field - both set up on the Extensions tab
-                  {newlineMode === 'join' && ' · line breaks above will be saved as spaces'}
+                  Nutze {'{{var_name}}'} für eine Erweiterung oder {'{{form_name.field}}'} für ein Formularfeld – beide werden im Tab „Erweiterungen“ eingerichtet
+                  {newlineMode === 'join' && ' · Zeilenumbrüche oben werden als Leerzeichen gespeichert'}
                 </div>
               </div>
 
               <div className="form-group">
-                <label className="form-label">Label (optional)</label>
+                <label className="form-label">Bezeichnung (optional)</label>
                 <input
                   className="form-input"
-                  placeholder="Description shown in search"
+                  placeholder="In der Suche angezeigte Beschreibung"
                   value={label}
                   onChange={e => setLabel(e.target.value)}
                 />
@@ -360,14 +360,14 @@ export default function MatchEditor({ match, isNew, globalVars, onSave, onCancel
           {tab === 'extensions' && (
             <div>
               <div className="text-xs text-muted mb-3">
-                Browse this file's extensions and forms and click one to insert it into
-                Replacement Text. To add, edit, or remove one, use the Extensions / Forms tabs
-                under Snippets - they're shared by every snippet in this file.
+                Durchsuche die Erweiterungen und Formulare dieser Datei und klicke eines an, um es in den
+                Ersetzungstext einzufügen. Zum Hinzufügen, Bearbeiten oder Entfernen die Tabs „Erweiterungen“ / „Formulare“
+                unter „Snippets“ nutzen – sie werden von jedem Snippet dieser Datei geteilt.
               </div>
 
-              <div className="text-sm text-secondary mb-2">Extensions</div>
+              <div className="text-sm text-secondary mb-2">Erweiterungen</div>
               {extensionRefs.length === 0 ? (
-                <div className="text-xs text-muted mb-4">None in this file yet.</div>
+                <div className="text-xs text-muted mb-4">Noch keine in dieser Datei.</div>
               ) : (
                 <div className="flex flex-col gap-2 mb-4">
                   {extensionRefs.map(r => (
@@ -384,9 +384,9 @@ export default function MatchEditor({ match, isNew, globalVars, onSave, onCancel
                 </div>
               )}
 
-              <div className="text-sm text-secondary mb-2">Forms</div>
+              <div className="text-sm text-secondary mb-2">Formulare</div>
               {formRefs.length === 0 ? (
-                <div className="text-xs text-muted">None in this file yet.</div>
+                <div className="text-xs text-muted">Noch keine in dieser Datei.</div>
               ) : (
                 <div className="flex flex-col gap-3">
                   {formRefs.map(f => (
@@ -423,13 +423,13 @@ export default function MatchEditor({ match, isNew, globalVars, onSave, onCancel
                     />
                     <span className="toggle-slider" />
                   </label>
-                  <span className="form-label" style={{ margin: 0 }}>Use Regular Expression</span>
+                  <span className="form-label" style={{ margin: 0 }}>Regulären Ausdruck verwenden</span>
                 </div>
               </div>
 
               {useRegex && (
                 <div className="form-group">
-                  <label className="form-label">Regex Pattern</label>
+                  <label className="form-label">Regex-Muster</label>
                   <input
                     className="form-input font-mono"
                     placeholder="\b(?:foo|bar)\b"
@@ -437,7 +437,7 @@ export default function MatchEditor({ match, isNew, globalVars, onSave, onCancel
                     onChange={e => setRegex(e.target.value)}
                   />
                   <div className="text-xs text-muted mt-2">
-                    The regex will be matched against the text. Use capture groups with {'{{0}}'}, {'{{1}}'}, etc.
+                    Der reguläre Ausdruck wird gegen den Text geprüft. Nutze Gruppen mit {'{{0}}'}, {'{{1}}'} usw.
                   </div>
                 </div>
               )}
@@ -452,10 +452,10 @@ export default function MatchEditor({ match, isNew, globalVars, onSave, onCancel
                     />
                     <span className="toggle-slider" />
                   </label>
-                  <span className="form-label" style={{ margin: 0 }}>Propagate Case</span>
+                  <span className="form-label" style={{ margin: 0 }}>Schreibweise übernehmen</span>
                 </div>
                 <div className="text-xs text-muted mt-2">
-                  Automatically match the case of the trigger (e.g. :hello → Hello)
+                  Übernimmt automatisch die Schreibweise des Triggers (z. B. :hallo → Hallo)
                 </div>
               </div>
 
@@ -469,10 +469,10 @@ export default function MatchEditor({ match, isNew, globalVars, onSave, onCancel
                     />
                     <span className="toggle-slider" />
                   </label>
-                  <span className="form-label" style={{ margin: 0 }}>Word Boundary</span>
+                  <span className="form-label" style={{ margin: 0 }}>Wortgrenze</span>
                 </div>
                 <div className="text-xs text-muted mt-2">
-                  Only trigger when surrounded by word boundaries
+                  Nur auslösen, wenn von Wortgrenzen umgeben
                 </div>
               </div>
             </div>
@@ -480,9 +480,9 @@ export default function MatchEditor({ match, isNew, globalVars, onSave, onCancel
         </div>
 
         <div className="modal-footer">
-          <button className="btn" onClick={onCancel}>Cancel</button>
+          <button className="btn" onClick={onCancel}>Abbrechen</button>
           <button className="btn btn-primary" onClick={handleSave}>
-            {isNew ? 'Create Snippet' : 'Save Changes'}
+            {isNew ? 'Snippet erstellen' : 'Änderungen speichern'}
           </button>
         </div>
       </div>

@@ -33,9 +33,9 @@ export type Theme = 'green' | 'blue' | 'violet'
 const THEME_KEY = 'espanso-gui:theme'
 
 export const THEMES: { id: Theme; label: string; color: string }[] = [
-  { id: 'green', label: 'Espanso Green', color: '#22c55e' },
-  { id: 'blue', label: 'Blue', color: '#4f8cff' },
-  { id: 'violet', label: 'Violet', color: '#8b5cf6' }
+  { id: 'green', label: 'Espanso-Grün', color: '#22c55e' },
+  { id: 'blue', label: 'Blau', color: '#4f8cff' },
+  { id: 'violet', label: 'Violett', color: '#8b5cf6' }
 ]
 
 export function getTheme(): Theme {

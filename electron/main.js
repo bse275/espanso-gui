@@ -72,7 +72,7 @@ function safeMatchPath(filename) {
   const matchDir = path.resolve(getMatchDir());
   const resolved = path.resolve(matchDir, filename);
   if (resolved !== matchDir && !resolved.startsWith(matchDir + path.sep)) {
-    throw new Error('Invalid match file path');
+    throw new Error('Ungültiger Pfad zur Match-Datei');
   }
   return resolved;
 }

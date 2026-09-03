@@ -45,28 +45,28 @@ function nextTipIndex() {
 }
 
 const TIPS = [
-  'Type ":date" to insert the current date - configure its format in the Extensions tab.',
-  'Create a form to fill in templates: espanso asks for the missing pieces before inserting.',
-  'Install packages like "all-emojis" or "math" from the Packages tab for instant symbols and calculations.',
-  'Prefer ";hello" over ":hello"? Change the trigger symbol in Configuration - it applies to all snippets.',
-  'Keep related snippets in their own match files (e.g. work.yml, personal.yml) for easier organizing.',
-  'Use a shell extension to insert live output, like your current git branch or IP address.',
-  'A choice extension pops up a picker when it expands - great for signature variants or canned replies.',
-  'A random extension picks from your list automatically - handy for rotating responses or examples.',
-  'The clipboard extension inserts whatever you last copied without breaking your flow.',
-  'Reference {{name}} in any replacement text - define the variable once in Extensions and reuse it everywhere.',
-  'After big config edits, hit Restart on the dashboard to make sure espanso picks everything up.',
-  'Use line breaks in Replacement Text to build multi-line signatures or code blocks.',
-  'The trigger symbol can be changed from ":" to something else - choose the one you type fastest.',
-  'Combined triggers match a longer phrase before a shorter one - put your specific triggers first.',
-  'Fields inside forms become {{form.field_name}} after submission - reuse them in the same replacement.'
+  'Tippe „:date", um das aktuelle Datum einzufügen – das Format legst du im Tab „Erweiterungen" fest.',
+  'Erstelle ein Formular für Vorlagen: Espanso fragt die fehlenden Teile ab, bevor es einfügt.',
+  'Installiere Pakete wie „all-emojis" oder „math" im Tab „Pakete" – für Symbole und Berechnungen auf Knopfdruck.',
+  'Lieber „;hallo" statt „:hallo"? Ändere das Trigger-Zeichen in der Konfiguration – es gilt für alle Snippets.',
+  'Halte zusammengehörige Snippets in eigenen Match-Dateien (z. B. arbeit.yml, privat.yml) – das erleichtert das Organisieren.',
+  'Nutze eine Shell-Erweiterung, um Live-Ausgaben einzufügen, etwa deinen aktuellen Git-Branch oder deine IP-Adresse.',
+  'Eine Auswahl-Erweiterung zeigt beim Einfügen eine Auswahlliste – ideal für Signatur-Varianten oder Standardantworten.',
+  'Eine Zufalls-Erweiterung wählt automatisch aus deiner Liste – praktisch für wechselnde Antworten oder Beispiele.',
+  'Die Zwischenablage-Erweiterung fügt ein, was du zuletzt kopiert hast, ohne deinen Arbeitsfluss zu unterbrechen.',
+  'Verweise mit {{name}} in jedem Ersetzungstext – definiere die Variable einmal unter „Erweiterungen" und nutze sie überall.',
+  'Nach größeren Änderungen an der Konfiguration: „Neu starten" in der Übersicht, damit Espanso alles übernimmt.',
+  'Nutze Zeilenumbrüche im Ersetzungstext für mehrzeilige Signaturen oder Code-Blöcke.',
+  'Das Trigger-Zeichen lässt sich von „:" auf etwas anderes ändern – wähle das, was du am schnellsten tippst.',
+  'Bei kombinierten Triggern greift der längere Ausdruck vor dem kürzeren – setze spezifische Trigger nach vorn.',
+  'Formularfelder werden nach dem Absenden zu {{form.feldname}} – nutze sie im selben Ersetzungstext weiter.'
 ]
 
 const DOC_LINKS = [
-  { title: 'Documentation', desc: 'The complete espanso manual', url: 'https://espanso.org/docs/', icon: <IoBookOutline size={15} /> },
-  { title: 'Matches', desc: 'Triggers and replacements', url: 'https://espanso.org/docs/matches/basics/', icon: <IoTextOutline size={15} /> },
-  { title: 'Extensions', desc: 'Dates, shell, choices, and more', url: 'https://espanso.org/docs/matches/extensions/', icon: <IoFlashOutline size={15} /> },
-  { title: 'Forms', desc: 'Fill-in-the-blank templates', url: 'https://espanso.org/docs/matches/forms/', icon: <IoListOutline size={15} /> }
+  { title: 'Dokumentation', desc: 'Das komplette Espanso-Handbuch', url: 'https://espanso.org/docs/', icon: <IoBookOutline size={15} /> },
+  { title: 'Matches', desc: 'Trigger und Ersetzungen', url: 'https://espanso.org/docs/matches/basics/', icon: <IoTextOutline size={15} /> },
+  { title: 'Erweiterungen', desc: 'Datum, Shell, Auswahl und mehr', url: 'https://espanso.org/docs/matches/extensions/', icon: <IoFlashOutline size={15} /> },
+  { title: 'Formulare', desc: 'Vorlagen zum Ausfüllen', url: 'https://espanso.org/docs/matches/forms/', icon: <IoListOutline size={15} /> }
 ]
 
 // Survive Dashboard unmount (App only renders the active view) so clicking
@@ -124,7 +124,7 @@ export default function DashboardView({ configInfo, espansoStatus, espansoRunnin
         setVarCount(next.varCount)
         setPackageCount(next.packageCount)
       } catch (err) {
-        showToast('error', `Failed to load stats: ${(err as Error).message}`)
+        showToast('error', `Statistik konnte nicht geladen werden: ${(err as Error).message}`)
       }
     }
     loadStats()
@@ -138,7 +138,7 @@ export default function DashboardView({ configInfo, espansoStatus, espansoRunnin
 
   const openDoc = async (url: string) => {
     const result = await window.espansoAPI.openExternal(url)
-    if (!result.success) showToast('error', result.error || 'Failed to open link')
+    if (!result.success) showToast('error', result.error || 'Link konnte nicht geöffnet werden')
   }
 
   const [tipIndex, setTipIndex] = useState(nextTipIndex)
@@ -151,9 +151,9 @@ export default function DashboardView({ configInfo, espansoStatus, espansoRunnin
           <div className="flex items-center gap-3">
             <IoAlertCircleOutline size={24} color="var(--warning)" />
             <div>
-              <div style={{ fontWeight: 600, fontSize: 14 }}>Espanso is not installed</div>
+              <div style={{ fontWeight: 600, fontSize: 14 }}>Espanso ist nicht installiert</div>
               <div className="text-sm text-secondary">
-                Install espanso from <a href="https://espanso.org" target="_blank" style={{ color: 'var(--accent)' }}>espanso.org</a> to use this GUI.
+                Installiere Espanso von <a href="https://espanso.org" target="_blank" style={{ color: 'var(--accent)' }}>espanso.org</a>, um diese GUI zu nutzen.
               </div>
             </div>
           </div>
@@ -165,8 +165,8 @@ export default function DashboardView({ configInfo, espansoStatus, espansoRunnin
         <button className="card add-snippet-card" onClick={onAddSnippet}>
           <span className="add-snippet-icon"><IoAddOutline size={22} /></span>
           <span>
-            <span className="quick-action-title">Add Snippet</span>
-            <span className="quick-action-desc">Create a new text expansion</span>
+            <span className="quick-action-title">Snippet hinzufügen</span>
+            <span className="quick-action-desc">Einen neuen Textbaustein anlegen</span>
           </span>
         </button>
 
@@ -180,7 +180,7 @@ export default function DashboardView({ configInfo, espansoStatus, espansoRunnin
                 />
                 <div>
                   <div style={{ fontWeight: 600, fontSize: 15 }}>
-                    Espanso {espansoRunning ? 'running' : 'stopped'}
+                    Espanso {espansoRunning ? 'läuft' : 'angehalten'}
                   </div>
                   {espansoStatus.version && (
                     <div className="text-sm text-secondary">v{espansoStatus.version}</div>
@@ -190,15 +190,15 @@ export default function DashboardView({ configInfo, espansoStatus, espansoRunnin
               <div className="flex gap-2">
                 {!espansoRunning ? (
                   <button className="btn btn-primary" onClick={onStartEspanso}>
-                    <IoPlay size={14} /> Start
+                    <IoPlay size={14} /> Starten
                   </button>
                 ) : (
                   <button className="btn" onClick={onStopEspanso}>
-                    <IoStop size={14} /> Stop
+                    <IoStop size={14} /> Stoppen
                   </button>
                 )}
                 <button className="btn" onClick={onRestartEspanso}>
-                  <IoSyncOutline size={14} /> Restart
+                  <IoSyncOutline size={14} /> Neu starten
                 </button>
               </div>
             </div>
@@ -209,19 +209,19 @@ export default function DashboardView({ configInfo, espansoStatus, espansoRunnin
       <div className="stats-grid">
         <div className="stat-card">
           <div className="stat-value">{totalMatches ?? '—'}</div>
-          <div className="stat-label">Total Snippets</div>
+          <div className="stat-label">Snippets gesamt</div>
         </div>
         <div className="stat-card">
           <div className="stat-value">{matchFileCount ?? '—'}</div>
-          <div className="stat-label">Match Files</div>
+          <div className="stat-label">Match-Dateien</div>
         </div>
         <div className="stat-card">
           <div className="stat-value">{varCount ?? '—'}</div>
-          <div className="stat-label">Extensions & Forms</div>
+          <div className="stat-label">Erweiterungen & Formulare</div>
         </div>
         <div className="stat-card">
           <div className="stat-value">{packageCount ?? '—'}</div>
-          <div className="stat-label">Packages</div>
+          <div className="stat-label">Pakete</div>
         </div>
       </div>
 
@@ -229,35 +229,35 @@ export default function DashboardView({ configInfo, espansoStatus, espansoRunnin
       <div className="dashboard-grid">
         <div className="card">
           <div className="card-header">
-            <div className="card-title">Quick Actions</div>
+            <div className="card-title">Schnellaktionen</div>
           </div>
           <div className="quick-actions-grid">
             <button className="quick-action-tile" onClick={() => onNavigate('snippets')}>
               <IoTextOutline size={18} className="quick-action-icon" />
               <div>
-                <div className="quick-action-title">Manage Snippets</div>
-                <div className="quick-action-desc">Create, edit, and organize your text expansions</div>
+                <div className="quick-action-title">Snippets verwalten</div>
+                <div className="quick-action-desc">Textbausteine anlegen, bearbeiten und organisieren</div>
               </div>
             </button>
             <button className="quick-action-tile" onClick={() => onNavigate('config')}>
               <IoDocumentTextOutline size={18} className="quick-action-icon" />
               <div>
-                <div className="quick-action-title">Edit Configuration</div>
-                <div className="quick-action-desc">Tune the main espanso config file</div>
+                <div className="quick-action-title">Konfiguration bearbeiten</div>
+                <div className="quick-action-desc">Die zentrale Espanso-Konfigurationsdatei anpassen</div>
               </div>
             </button>
             <button className="quick-action-tile" onClick={() => onNavigate('packages')}>
               <IoCubeOutline size={18} className="quick-action-icon" />
               <div>
-                <div className="quick-action-title">Browse Packages</div>
-                <div className="quick-action-desc">Explore installed espanso packages</div>
+                <div className="quick-action-title">Pakete durchsuchen</div>
+                <div className="quick-action-desc">Installierte Espanso-Pakete ansehen</div>
               </div>
             </button>
             <button className="quick-action-tile" onClick={openConfigDir}>
               <IoFolderOpenOutline size={18} className="quick-action-icon" />
               <div>
-                <div className="quick-action-title">Open Config Folder</div>
-                <div className="quick-action-desc">Reveal the espanso config directory in Finder</div>
+                <div className="quick-action-title">Konfigurationsordner öffnen</div>
+                <div className="quick-action-desc">Das Espanso-Konfigurationsverzeichnis im Dateimanager anzeigen</div>
               </div>
             </button>
           </div>
@@ -265,32 +265,32 @@ export default function DashboardView({ configInfo, espansoStatus, espansoRunnin
 
         <div className="card">
           <div className="card-header">
-            <div className="card-title">Configuration</div>
+            <div className="card-title">Konfiguration</div>
             <button className="btn btn-sm" onClick={openConfigDir}>
-              <IoFolderOpenOutline size={14} /> Open Folder
+              <IoFolderOpenOutline size={14} /> Ordner öffnen
             </button>
           </div>
           {configInfo ? (
             <div className="flex flex-col gap-2">
               <div className="config-path-row">
-                <span className="text-sm text-muted">Config dir:</span>
+                <span className="text-sm text-muted">Konfig-Verzeichnis:</span>
                 <code className="config-path font-mono text-sm" style={{ color: 'var(--accent)' }}>{configInfo.configDir}</code>
               </div>
               <div className="config-path-row">
-                <span className="text-sm text-muted">Main config:</span>
+                <span className="text-sm text-muted">Hauptkonfiguration:</span>
                 <code className="config-path font-mono text-sm" style={{ color: 'var(--accent)' }}>{configInfo.configPath}</code>
               </div>
               <div className="config-path-row">
-                <span className="text-sm text-muted">Match dir:</span>
+                <span className="text-sm text-muted">Match-Verzeichnis:</span>
                 <code className="config-path font-mono text-sm" style={{ color: 'var(--accent)' }}>{configInfo.matchDir}</code>
               </div>
               <div className="config-path-row">
-                <span className="text-sm text-muted">Packages:</span>
+                <span className="text-sm text-muted">Pakete:</span>
                 <code className="config-path font-mono text-sm" style={{ color: 'var(--accent)' }}>{configInfo.packagesDir}</code>
               </div>
             </div>
           ) : (
-            <div className="text-sm text-muted">Loading configuration info...</div>
+            <div className="text-sm text-muted">Konfigurationsdaten werden geladen …</div>
           )}
         </div>
       </div>
@@ -299,7 +299,7 @@ export default function DashboardView({ configInfo, espansoStatus, espansoRunnin
       <div className="dashboard-grid">
         <div className="card">
           <div className="card-header">
-            <div className="card-title">Learn Espanso</div>
+            <div className="card-title">Espanso lernen</div>
           </div>
           <div className="docs-grid">
             {DOC_LINKS.map(doc => (
@@ -317,9 +317,9 @@ export default function DashboardView({ configInfo, espansoStatus, espansoRunnin
 
         <div className="card">
           <div className="card-header">
-            <div className="card-title">Tip</div>
-            <button className="btn btn-sm" onClick={advanceTip} title="Show another tip">
-              <IoRefreshOutline size={12} /> Next tip
+            <div className="card-title">Tipp</div>
+            <button className="btn btn-sm" onClick={advanceTip} title="Anderen Tipp anzeigen">
+              <IoRefreshOutline size={12} /> Nächster Tipp
             </button>
           </div>
           <div className="flex items-start gap-3">

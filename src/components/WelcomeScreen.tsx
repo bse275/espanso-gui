@@ -12,12 +12,12 @@ function prefersReducedMotion() {
 }
 
 function ExpandDemo({ ready }: { ready: boolean }) {
-  const [typed, setTyped] = useState(ready ? ':hello' : '')
+  const [typed, setTyped] = useState(ready ? ':hallo' : '')
   const [expanded, setExpanded] = useState(ready)
 
   useEffect(() => {
     if (ready) return
-    const target = ':hello'
+    const target = ':hallo'
     let i = 0
     let expandTimer = 0
     const id = window.setInterval(() => {
@@ -42,7 +42,7 @@ function ExpandDemo({ ready }: { ready: boolean }) {
           {!expanded && <span className="welcome-caret" />}
         </span>
         <span className="welcome-demo-arrow">→</span>
-        <span className="welcome-demo-replace">{expanded ? 'hello, world' : ''}</span>
+        <span className="welcome-demo-replace">{expanded ? 'Hallo zusammen' : ''}</span>
       </div>
     </div>
   )
@@ -66,7 +66,7 @@ export default function WelcomeScreen({ onFinished }: Props) {
   }
 
   const skip = () => {
-    finish({ type: 'info', text: 'Skipped backup. You can still copy the config and match folders later.' })
+    finish({ type: 'info', text: 'Sicherung übersprungen. Du kannst die Ordner „config“ und „match“ später noch kopieren.' })
   }
 
   const backup = async () => {
@@ -75,25 +75,25 @@ export default function WelcomeScreen({ onFinished }: Props) {
     try {
       const result = await window.espansoAPI.backupConfig()
       if (!result.success) {
-        setError(result.error || 'Backup failed')
+        setError(result.error || 'Sicherung fehlgeschlagen')
         setBackingUp(false)
         return
       }
       if (result.empty) {
-        finish({ type: 'info', text: 'No config or match folders yet, so there was nothing to back up.' })
+        finish({ type: 'info', text: 'Noch keine „config“- oder „match“-Ordner vorhanden – es gab nichts zu sichern.' })
         return
       }
       const count = result.backedUp?.length || 0
       const skipped = result.skipped?.length || 0
       if (count === 0 && skipped > 0) {
-        finish({ type: 'info', text: 'Backup folders already exist. Left config_backup and match_backup as they are.' })
+        finish({ type: 'info', text: 'Sicherungsordner existieren bereits. config_backup und match_backup wurden unverändert gelassen.' })
         return
       }
       finish({
         type: 'success',
         text: skipped
-          ? `Saved ${count} backup folder${count === 1 ? '' : 's'} (${skipped} already existed).`
-          : `Saved ${count} backup folder${count === 1 ? '' : 's'} next to your working copies.`
+          ? `${count} Sicherungsordner gespeichert (${skipped} existierten bereits).`
+          : `${count} Sicherungsordner neben deinen Arbeitskopien gespeichert.`
       })
     } catch (err) {
       setError((err as Error).message)
@@ -108,15 +108,15 @@ export default function WelcomeScreen({ onFinished }: Props) {
         <div className="welcome-mark">
           <Logo size={40} />
         </div>
-        <h1 className="welcome-title">Before you start</h1>
+        <h1 className="welcome-title">Bevor du loslegst</h1>
         <ExpandDemo ready={reduceMotion} />
         <p className="welcome-copy">
-          Espanso GUI suggests backing up your current config so you have it safe.
+          Espanso GUI empfiehlt, deine aktuelle Konfiguration zu sichern, damit sie geschützt ist.
         </p>
         <p className="welcome-path">
           {hasConfig
-            ? 'Renames the config and match folders to config_backup and match_backup, then copies them back as your working folders. Espanso only loads config and match, so nested files stay intact and the backups are ignored.'
-            : 'No espanso config or match folders found yet. Backup will be skipped if you continue.'}
+            ? 'Benennt die Ordner „config“ und „match“ in „config_backup“ und „match_backup“ um und kopiert sie anschließend als deine Arbeitsordner zurück. Espanso lädt nur „config“ und „match“, daher bleiben verschachtelte Dateien erhalten und die Sicherungen werden ignoriert.'
+            : 'Noch keine „config“- oder „match“-Ordner von Espanso gefunden. Die Sicherung wird übersprungen, wenn du fortfährst.'}
         </p>
         {error && <div className="welcome-error">{error}</div>}
         <div className="welcome-actions">
@@ -126,10 +126,10 @@ export default function WelcomeScreen({ onFinished }: Props) {
             disabled={backingUp}
           >
             <IoShieldCheckmarkOutline size={16} />
-            {backingUp ? 'Backing up...' : 'Backup & Continue'}
+            {backingUp ? 'Wird gesichert …' : 'Sichern & fortfahren'}
           </button>
           <button className="btn btn-lg welcome-risk" onClick={skip} disabled={backingUp}>
-            I'll risk it.
+            Ich riskier’s.
           </button>
         </div>
       </div>

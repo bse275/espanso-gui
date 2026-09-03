@@ -92,7 +92,7 @@ export default function App() {
       const info = await window.espansoAPI.getConfigInfo()
       setConfigInfo(info)
     } catch (err) {
-      showToast('error', `Failed to load config info: ${(err as Error).message}`)
+      showToast('error', `Konfigurationsdaten konnten nicht geladen werden: ${(err as Error).message}`)
     }
   }, [showToast])
 
@@ -119,9 +119,9 @@ export default function App() {
     const result = await window.espansoAPI.runEspansoCommand(['start'])
     if (result.success) {
       setEspansoRunning(true)
-      showToast('success', 'Espanso started')
+      showToast('success', 'Espanso gestartet')
     } else {
-      showToast('error', `Failed to start espanso: ${result.error}`)
+      showToast('error', `Espanso konnte nicht gestartet werden: ${result.error}`)
     }
   }
 
@@ -129,9 +129,9 @@ export default function App() {
     const result = await window.espansoAPI.runEspansoCommand(['stop'])
     if (result.success) {
       setEspansoRunning(false)
-      showToast('success', 'Espanso stopped')
+      showToast('success', 'Espanso angehalten')
     } else {
-      showToast('error', `Failed to stop espanso: ${result.error}`)
+      showToast('error', `Espanso konnte nicht angehalten werden: ${result.error}`)
     }
   }
 
@@ -139,9 +139,9 @@ export default function App() {
     const result = await window.espansoAPI.runEspansoCommand(['restart'])
     if (result.success) {
       setEspansoRunning(true)
-      showToast('success', 'Espanso restarted')
+      showToast('success', 'Espanso neu gestartet')
     } else {
-      showToast('error', `Failed to restart espanso: ${result.error}`)
+      showToast('error', `Espanso konnte nicht neu gestartet werden: ${result.error}`)
     }
   }
 
@@ -155,18 +155,18 @@ export default function App() {
   }, [])
 
   const navItems: { id: View; label: string; icon: React.ReactNode; section: string }[] = [
-    { id: 'dashboard', label: 'Dashboard', icon: <IoGridOutline size={16} />, section: 'Overview' },
-    { id: 'snippets', label: 'Snippets', icon: <IoTextOutline size={16} />, section: 'Overview' },
-    { id: 'config', label: 'Configuration', icon: <IoSettingsOutline size={16} />, section: 'Overview' },
-    { id: 'packages', label: 'Packages', icon: <IoCubeOutline size={16} />, section: 'Overview' },
-    { id: 'terminal', label: 'Terminal', icon: <IoTerminalOutline size={16} />, section: 'Tools' }
+    { id: 'dashboard', label: 'Übersicht', icon: <IoGridOutline size={16} />, section: 'Überblick' },
+    { id: 'snippets', label: 'Snippets', icon: <IoTextOutline size={16} />, section: 'Überblick' },
+    { id: 'config', label: 'Konfiguration', icon: <IoSettingsOutline size={16} />, section: 'Überblick' },
+    { id: 'packages', label: 'Pakete', icon: <IoCubeOutline size={16} />, section: 'Überblick' },
+    { id: 'terminal', label: 'Terminal', icon: <IoTerminalOutline size={16} />, section: 'Werkzeuge' }
   ]
 
   const viewTitles: Record<View, string> = {
-    dashboard: 'Dashboard',
+    dashboard: 'Übersicht',
     snippets: 'Snippets',
-    config: 'Configuration',
-    packages: 'Packages',
+    config: 'Konfiguration',
+    packages: 'Pakete',
     terminal: 'Terminal'
   }
 
@@ -179,7 +179,7 @@ export default function App() {
           <Logo size={28} />
           <div>
             <div className="sidebar-title">Espanso GUI</div>
-            <div className="sidebar-subtitle">Text Expander Manager</div>
+            <div className="sidebar-subtitle">Textbaustein-Verwaltung</div>
           </div>
         </div>
 
@@ -222,22 +222,22 @@ export default function App() {
           <div className="espanso-status">
             <span className={`status-dot ${espansoRunning ? 'running' : espansoStatus.installed ? 'stopped' : 'unknown'}`} />
             <span>
-              {espansoRunning ? 'Espanso running' : espansoStatus.installed ? 'Espanso stopped' : 'Espanso not found'}
+              {espansoRunning ? 'Espanso läuft' : espansoStatus.installed ? 'Espanso angehalten' : 'Espanso nicht gefunden'}
             </span>
           </div>
           {espansoStatus.installed && (
             <div className="flex gap-2" style={{ padding: '4px 8px' }}>
               {!espansoRunning ? (
                 <button className="btn btn-sm" onClick={startEspanso}>
-                  <IoPlay size={12} /> Start
+                  <IoPlay size={12} /> Starten
                 </button>
               ) : (
                 <button className="btn btn-sm" onClick={stopEspanso}>
-                  <IoStop size={12} /> Stop
+                  <IoStop size={12} /> Stoppen
                 </button>
               )}
               <button className="btn btn-sm" onClick={restartEspanso}>
-                <IoSyncOutline size={12} /> Restart
+                <IoSyncOutline size={12} /> Neu starten
               </button>
             </div>
           )}

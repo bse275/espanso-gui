@@ -35,28 +35,28 @@ const DEFAULT_WORD_SEPARATORS = [
 ]
 
 const WORD_SEPARATOR_LABELS: Record<string, string> = {
-  ' ': 'Space',
-  ',': 'Comma ,',
-  '.': 'Period .',
-  '?': 'Question Mark ?',
-  '!': 'Exclamation !',
-  '\r': 'Carriage Return',
-  '\n': 'Newline',
-  '\t': 'Tab',
-  "'": "Single Quote '",
-  '"': 'Double Quote "',
-  '\x0c': 'Form Feed',
-  '(': 'Open Paren (',
-  ')': 'Close Paren )',
-  '[': 'Open Bracket [',
-  ']': 'Close Bracket ]',
-  '{': 'Open Brace {',
-  '}': 'Close Brace }',
-  '<': 'Less Than <',
-  '>': 'Greater Than >',
-  ':': 'Colon :',
-  ';': 'Semicolon ;',
-  '\xa0': 'Non-breaking Space'
+  ' ': 'Leerzeichen',
+  ',': 'Komma ,',
+  '.': 'Punkt .',
+  '?': 'Fragezeichen ?',
+  '!': 'Ausrufezeichen !',
+  '\r': 'Wagenrücklauf',
+  '\n': 'Zeilenumbruch',
+  '\t': 'Tabulator',
+  "'": "Einfaches Anführungszeichen '",
+  '"': 'Doppeltes Anführungszeichen "',
+  '\x0c': 'Seitenvorschub',
+  '(': 'Klammer auf (',
+  ')': 'Klammer zu )',
+  '[': 'Eckige Klammer auf [',
+  ']': 'Eckige Klammer zu ]',
+  '{': 'Geschweifte Klammer auf {',
+  '}': 'Geschweifte Klammer zu }',
+  '<': 'Kleiner-als <',
+  '>': 'Größer-als >',
+  ':': 'Doppelpunkt :',
+  ';': 'Semikolon ;',
+  '\xa0': 'Geschütztes Leerzeichen'
 }
 
 // Map a keydown event's main (non-modifier) key to espanso's search_shortcut
@@ -107,7 +107,7 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
         showToast('error', result.error)
       }
     } catch (err) {
-      showToast('error', `Failed to load config: ${(err as Error).message}`)
+      showToast('error', `Konfiguration konnte nicht geladen werden: ${(err as Error).message}`)
     }
   }, [showToast])
 
@@ -192,10 +192,10 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
       if (result.success) {
         setConfigContent(content)
       } else {
-        showToast('error', `Failed to save: ${result.error}`)
+        showToast('error', `Speichern fehlgeschlagen: ${result.error}`)
       }
     } catch (err) {
-      showToast('error', `Failed to save: ${(err as Error).message}`)
+      showToast('error', `Speichern fehlgeschlagen: ${(err as Error).message}`)
     }
   }
 
@@ -261,12 +261,12 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
       const result = await window.espansoAPI.writeConfig(content)
       if (result.success) {
         setConfigContent(content)
-        showToast('success', 'Configuration saved')
+        showToast('success', 'Konfiguration gespeichert')
       } else {
-        showToast('error', `Failed to save: ${result.error}`)
+        showToast('error', `Speichern fehlgeschlagen: ${result.error}`)
       }
     } catch (err) {
-      showToast('error', `Failed to save: ${(err as Error).message}`)
+      showToast('error', `Speichern fehlgeschlagen: ${(err as Error).message}`)
     } finally {
       setSaving(false)
     }
@@ -280,11 +280,11 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
       <div className="flex gap-2">
         {settings.auto_restart === false && (
           <button className="btn btn-sm" onClick={loadConfig}>
-            <IoSyncOutline size={14} /> Reload
+            <IoSyncOutline size={14} /> Neu laden
           </button>
         )}
         <button className="btn btn-sm btn-primary" onClick={saveConfig} disabled={saving}>
-          <IoSaveOutline size={14} /> {saving ? 'Saving...' : 'Save Config'}
+          <IoSaveOutline size={14} /> {saving ? 'Wird gespeichert …' : 'Konfiguration speichern'}
         </button>
       </div>
     )
@@ -293,7 +293,7 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
 
   const handleApplyTriggerSymbol = async () => {
     if (!newSymbol || newSymbol.length > 1) {
-      showToast('error', 'Trigger symbol must be a single character')
+      showToast('error', 'Das Trigger-Zeichen muss ein einzelnes Zeichen sein')
       return
     }
 
@@ -314,15 +314,15 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
               await window.espansoAPI.writeMatchFile(file.name, newContent)
             }
           }
-          showToast('success', `Trigger symbol changed to "${newSymbol}" and applied to all snippets`)
+          showToast('success', `Trigger-Zeichen auf „${newSymbol}“ geändert und auf alle Snippets angewendet`)
         }
       } else {
-        showToast('success', `Trigger symbol changed to "${newSymbol}". New snippets will use it.`)
+        showToast('success', `Trigger-Zeichen auf „${newSymbol}“ geändert. Neue Snippets verwenden es.`)
       }
 
       setShowTriggerModal(false)
     } catch (err) {
-      showToast('error', `Failed to apply trigger symbol: ${(err as Error).message}`)
+      showToast('error', `Trigger-Zeichen konnte nicht angewendet werden: ${(err as Error).message}`)
     }
   }
 
@@ -350,23 +350,23 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
   return (
     <div>
       <div className="text-sm text-secondary mb-6">
-        Edit the main espanso configuration file
+        Die zentrale Espanso-Konfigurationsdatei bearbeiten
       </div>
 
       {/* Global Trigger Symbol */}
       <div className="card mb-6" style={{ borderColor: 'rgba(79, 140, 255, 0.3)' }}>
         <div className="flex items-center justify-between">
           <div>
-            <div className="card-title mb-1">Global Trigger Symbol</div>
+            <div className="card-title mb-1">Globales Trigger-Zeichen</div>
             <div className="text-sm text-secondary">
-              Current symbol: <code className="font-mono" style={{ color: 'var(--accent)', fontSize: 16 }}>{currentSymbol}</code>
+              Aktuelles Zeichen: <code className="font-mono" style={{ color: 'var(--accent)', fontSize: 16 }}>{currentSymbol}</code>
             </div>
             <div className="text-xs text-muted mt-1">
-              This is the character you type before a trigger to activate it (e.g. {currentSymbol}hello)
+              Das ist das Zeichen, das du vor einem Trigger tippst, um ihn auszulösen (z. B. {currentSymbol}hallo)
             </div>
           </div>
           <button className="btn btn-primary" onClick={() => setShowTriggerModal(true)}>
-            Change Symbol
+            Zeichen ändern
           </button>
         </div>
       </div>
@@ -375,12 +375,12 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
       <div className="card mb-6">
         <div className="flex items-center justify-between">
           <div>
-            <div className="card-title mb-1">New Snippet Line Breaks</div>
+            <div className="card-title mb-1">Zeilenumbrüche bei neuen Snippets</div>
             <div className="text-sm text-secondary">
-              Default for the "Replacement Text" field when creating a new snippet
+              Standard für das Feld „Ersetzungstext“ beim Anlegen eines neuen Snippets
             </div>
             <div className="text-xs text-muted mt-1">
-              A GUI preference, stored on this device only - not part of espanso's own config
+              Eine GUI-Einstellung, nur auf diesem Gerät gespeichert – nicht Teil der Espanso-Konfiguration
             </div>
           </div>
           <select
@@ -393,19 +393,19 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
               setDefaultNewlineMode(mode)
             }}
           >
-            <option value="preserve">Keep line breaks</option>
-            <option value="join">Join as spaces</option>
+            <option value="preserve">Umbrüche behalten</option>
+            <option value="join">Zu Leerzeichen</option>
           </select>
         </div>
       </div>
 
       {/* Settings sections */}
-      {renderSection('general', 'General Settings', (
+      {renderSection('general', 'Allgemeine Einstellungen', (
         <div>
           <div className="settings-row">
             <div>
               <div className="settings-label">Backend</div>
-              <div className="settings-desc">How text is injected. Auto uses keypresses for short snippets and clipboard for long ones</div>
+              <div className="settings-desc">Wie Text eingefügt wird. „Auto“ nutzt Tastenanschläge für kurze und die Zwischenablage für lange Snippets</div>
             </div>
             <select
               className="form-select"
@@ -413,16 +413,16 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
               value={(settings.backend || 'auto').toString().toLowerCase()}
               onChange={e => updateSetting('backend', e.target.value)}
             >
-              <option value="auto">Auto (recommended)</option>
-              <option value="clipboard">Clipboard</option>
-              <option value="inject">Inject (keypresses)</option>
+              <option value="auto">Auto (empfohlen)</option>
+              <option value="clipboard">Zwischenablage</option>
+              <option value="inject">Einfügen (Tastenanschläge)</option>
             </select>
           </div>
 
           <div className="settings-row">
             <div>
-              <div className="settings-label">Clipboard Threshold</div>
-              <div className="settings-desc">Use clipboard injection above this length (default 100). Only applies when Backend is Auto</div>
+              <div className="settings-label">Schwelle für Zwischenablage</div>
+              <div className="settings-desc">Zwischenablage ab dieser Länge verwenden (Standard 100). Nur wirksam, wenn Backend auf „Auto“ steht</div>
             </div>
             <input
               className="form-input"
@@ -440,8 +440,8 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
 
           <div className="settings-row">
             <div>
-              <div className="settings-label">Pre-Paste Delay</div>
-              <div className="settings-desc">Milliseconds to wait after copying, before pasting (default 300)</div>
+              <div className="settings-label">Verzögerung vor dem Einfügen</div>
+              <div className="settings-desc">Millisekunden Wartezeit nach dem Kopieren, bevor eingefügt wird (Standard 300)</div>
             </div>
             <input
               className="form-input"
@@ -459,8 +459,8 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
 
           <div className="settings-row">
             <div>
-              <div className="settings-label">Paste Shortcut</div>
-              <div className="settings-desc">Keyboard shortcut used for pasting</div>
+              <div className="settings-label">Einfüge-Tastenkürzel</div>
+              <div className="settings-desc">Tastenkürzel, das zum Einfügen verwendet wird</div>
             </div>
             <input
               className="form-input font-mono"
@@ -473,8 +473,8 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
 
           <div className="settings-row">
             <div>
-              <div className="settings-label">Preserve Clipboard</div>
-              <div className="settings-desc">Restore the previous clipboard content after an expansion</div>
+              <div className="settings-label">Zwischenablage erhalten</div>
+              <div className="settings-desc">Den vorherigen Inhalt der Zwischenablage nach einer Ersetzung wiederherstellen</div>
             </div>
             <label className="toggle">
               <input
@@ -488,8 +488,8 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
 
           <div className="settings-row">
             <div>
-              <div className="settings-label">Show Notifications</div>
-              <div className="settings-desc">If false, disable all notifications</div>
+              <div className="settings-label">Benachrichtigungen anzeigen</div>
+              <div className="settings-desc">Wenn deaktiviert, werden alle Benachrichtigungen unterdrückt</div>
             </div>
             <label className="toggle">
               <input
@@ -503,8 +503,8 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
 
           <div className="settings-row">
             <div>
-              <div className="settings-label">Show Icon</div>
-              <div className="settings-desc">If false, avoid showing the espanso icon on the system's tray bar. Not supported on Linux.</div>
+              <div className="settings-label">Symbol anzeigen</div>
+              <div className="settings-desc">Wenn deaktiviert, wird das Espanso-Symbol nicht im Infobereich angezeigt. Unter Linux nicht unterstützt.</div>
             </div>
             <label className="toggle">
               <input
@@ -518,8 +518,8 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
 
           <div className="settings-row">
             <div>
-              <div className="settings-label">Enabled</div>
-              <div className="settings-desc">Activate espanso for this configuration</div>
+              <div className="settings-label">Aktiviert</div>
+              <div className="settings-desc">Espanso für diese Konfiguration aktivieren</div>
             </div>
             <label className="toggle">
               <input
@@ -533,8 +533,8 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
 
           <div className="settings-row">
             <div>
-              <div className="settings-label">Undo on Backspace</div>
-              <div className="settings-desc">Automatically revert an expansion if Backspace is pressed right after</div>
+              <div className="settings-label">Rückgängig mit Rücktaste</div>
+              <div className="settings-desc">Eine Ersetzung automatisch rückgängig machen, wenn direkt danach die Rücktaste gedrückt wird</div>
             </div>
             <label className="toggle">
               <input
@@ -548,8 +548,8 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
 
           <div className="settings-row">
             <div>
-              <div className="settings-label">Auto Restart</div>
-              <div className="settings-desc">Restart the worker and reload config when a config file changes on disk</div>
+              <div className="settings-label">Automatischer Neustart</div>
+              <div className="settings-desc">Den Worker neu starten und die Konfiguration neu laden, wenn sich eine Konfigurationsdatei ändert</div>
             </div>
             <label className="toggle">
               <input
@@ -563,12 +563,12 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
         </div>
       ))}
 
-      {renderSection('search', 'Search Settings', (
+      {renderSection('search', 'Sucheinstellungen', (
         <div>
           <div className="settings-row">
             <div>
-              <div className="settings-label">Search Trigger</div>
-              <div className="settings-desc">Text typed to open the search bar (e.g. a symbol or a whole word like ".search")</div>
+              <div className="settings-label">Such-Trigger</div>
+              <div className="settings-desc">Text, der die Suchleiste öffnet (z. B. ein Zeichen oder ein ganzes Wort wie „.search“)</div>
             </div>
             <input
               className="form-input font-mono"
@@ -583,9 +583,9 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
 
           <div className="settings-row">
             <div>
-              <div className="settings-label">Search Shortcut</div>
+              <div className="settings-label">Such-Tastenkürzel</div>
               <div className="settings-desc">
-                {recordingShortcut ? 'Press the key combo now (espanso paused so it doesn\'t intercept it)... Esc to cancel' : 'Keyboard shortcut to open the search bar'}
+                {recordingShortcut ? 'Drücke jetzt die Tastenkombination (Espanso ist pausiert, damit es sie nicht abfängt) … Esc zum Abbrechen' : 'Tastenkürzel zum Öffnen der Suchleiste'}
               </div>
             </div>
             <div className="form-input-group" style={{ width: 200 }}>
@@ -599,7 +599,7 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
               <button
                 type="button"
                 className={`btn btn-icon btn-sm ${recordingShortcut ? 'btn-primary' : ''}`}
-                title="Record shortcut by pressing keys"
+                title="Tastenkürzel durch Drücken der Tasten aufnehmen"
                 onClick={() => setRecordingShortcut(r => !r)}
               >
                 <IoKeypadOutline size={14} />
@@ -609,8 +609,8 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
 
           <div className="settings-row">
             <div>
-              <div className="settings-label">Toggle Key</div>
-              <div className="settings-desc">Double-tap to toggle espanso on/off</div>
+              <div className="settings-label">Umschalttaste</div>
+              <div className="settings-desc">Doppeltippen, um Espanso ein-/auszuschalten</div>
             </div>
             <select
               className="form-select font-mono"
@@ -624,19 +624,19 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
               }}
             >
               {TOGGLE_KEY_OPTIONS.map(opt => (
-                <option key={opt} value={opt}>{opt === '' ? 'Off (default)' : opt}</option>
+                <option key={opt} value={opt}>{opt === '' ? 'Aus (Standard)' : opt}</option>
               ))}
             </select>
           </div>
         </div>
       ))}
 
-      {renderSection('advanced', 'Advanced Settings', (
+      {renderSection('advanced', 'Erweiterte Einstellungen', (
         <div>
           <div className="settings-row">
             <div>
-              <div className="settings-label">Includes</div>
-              <div className="settings-desc">Extra match-file globs to load (comma separated). Files starting with _ are skipped unless imported.</div>
+              <div className="settings-label">Einschließen (includes)</div>
+              <div className="settings-desc">Zusätzliche Match-Datei-Muster zum Laden (kommagetrennt). Dateien mit _ am Anfang werden übersprungen, außer sie werden importiert.</div>
             </div>
             <input
               className="form-input font-mono"
@@ -648,8 +648,8 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
 
           <div className="settings-row">
             <div>
-              <div className="settings-label">Excludes</div>
-              <div className="settings-desc">Match-file globs to skip (comma separated)</div>
+              <div className="settings-label">Ausschließen (excludes)</div>
+              <div className="settings-desc">Match-Datei-Muster zum Überspringen (kommagetrennt)</div>
             </div>
             <input
               className="form-input font-mono"
@@ -661,8 +661,8 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
 
           <div className="settings-row">
             <div>
-              <div className="settings-label">Backspace Limit</div>
-              <div className="settings-desc">Max backspace presses tracked for correcting a misspelled trigger</div>
+              <div className="settings-label">Rücktasten-Limit</div>
+              <div className="settings-desc">Maximale Anzahl an Rücktasten-Anschlägen, die zum Korrigieren eines vertippten Triggers erfasst werden</div>
             </div>
             <input
               className="form-input"
@@ -675,8 +675,8 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
 
           <div className="settings-row">
             <div>
-              <div className="settings-label">Max Form Size</div>
-              <div className="settings-desc">Maximum width/height for form dialogs, in pixels</div>
+              <div className="settings-label">Maximale Formulargröße</div>
+              <div className="settings-desc">Maximale Breite/Höhe für Formulardialoge, in Pixeln</div>
             </div>
             <div className="form-input-group" style={{ width: 220 }}>
               <input
@@ -699,8 +699,8 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
 
           <div className="settings-row">
             <div>
-              <div className="settings-label">Emulate ALT Codes</div>
-              <div className="settings-desc">Restore ALT-code character entry on Windows (may conflict with expansions)</div>
+              <div className="settings-label">ALT-Codes emulieren</div>
+              <div className="settings-desc">ALT-Code-Zeicheneingabe unter Windows wiederherstellen (kann mit Ersetzungen kollidieren)</div>
             </div>
             <label className="toggle">
               <input
@@ -715,12 +715,12 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
           <div className="settings-row" style={{ flexDirection: 'column', alignItems: 'stretch', gap: 10 }}>
             <div className="flex items-center justify-between">
               <div>
-                <div className="settings-label">Word Separators</div>
-                <div className="settings-desc">Characters that mark the start/end of a word, for "Word Boundary" matches</div>
+                <div className="settings-label">Worttrenner</div>
+                <div className="settings-desc">Zeichen, die Anfang/Ende eines Worts markieren – für Matches mit „Wortgrenze“</div>
               </div>
               {settings.word_separators !== undefined && (
                 <button className="btn btn-sm" onClick={() => clearSetting('word_separators')}>
-                  Reset to Defaults
+                  Auf Standard zurücksetzen
                 </button>
               )}
             </div>
@@ -732,7 +732,7 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
                     key={char === ' ' ? 'space' : char}
                     className={`btn btn-sm ${active ? 'btn-primary' : ''}`}
                     style={{ opacity: active ? 1 : 0.5 }}
-                    title={active ? 'Click to remove' : 'Click to add'}
+                    title={active ? 'Zum Entfernen klicken' : 'Zum Hinzufügen klicken'}
                     onClick={() => {
                       const current: string[] = settings.word_separators ?? DEFAULT_WORD_SEPARATORS
                       const next = current.includes(char) ? current.filter(c => c !== char) : [...current, char]
@@ -747,7 +747,7 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
                 <button
                   key={`custom-${char}`}
                   className="btn btn-sm btn-primary"
-                  title="Click to remove"
+                  title="Zum Entfernen klicken"
                   onClick={() => {
                     const current: string[] = settings.word_separators ?? []
                     updateSetting('word_separators', current.filter(c => c !== char))
@@ -760,7 +760,7 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
             <div className="form-input-group" style={{ width: 200 }}>
               <input
                 className="form-input font-mono"
-                placeholder="Custom char"
+                placeholder="Eigenes Zeichen"
                 maxLength={4}
                 value={customSeparator}
                 onChange={e => setCustomSeparator(e.target.value)}
@@ -784,7 +784,7 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
                   setCustomSeparator('')
                 }}
               >
-                <IoAddOutline size={14} /> Add
+                <IoAddOutline size={14} /> Hinzufügen
               </button>
             </div>
           </div>
@@ -792,10 +792,10 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
       ))}
 
       {/* Raw YAML editor */}
-      {renderSection('raw', 'Raw YAML Editor', (
+      {renderSection('raw', 'Roh-YAML-Editor', (
         <div>
           <div className="text-xs text-muted mb-2">
-            Edit the raw YAML directly. Be careful - invalid YAML will break espanso.
+            Bearbeite das YAML direkt. Vorsicht – ungültiges YAML macht Espanso funktionsunfähig.
           </div>
           <textarea
             className="code-editor"
@@ -809,14 +809,14 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
               onClick={async () => {
                 const result = await window.espansoAPI.writeConfig(configContent)
                 if (result.success) {
-                  showToast('success', 'Raw config saved')
+                  showToast('success', 'Rohkonfiguration gespeichert')
                   await loadConfig()
                 } else {
-                  showToast('error', `Failed to save: ${result.error}`)
+                  showToast('error', `Speichern fehlgeschlagen: ${result.error}`)
                 }
               }}
             >
-              <IoSaveOutline size={16} /> Save Raw
+              <IoSaveOutline size={16} /> Roh speichern
             </button>
           </div>
         </div>
@@ -827,14 +827,14 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
         <div className="modal-overlay" onClick={() => setShowTriggerModal(false)}>
           <div className="modal" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
-              <div className="modal-title">Change Global Trigger Symbol</div>
+              <div className="modal-title">Globales Trigger-Zeichen ändern</div>
               <button className="btn btn-icon btn-sm" onClick={() => setShowTriggerModal(false)}>
                 <IoCloseOutline size={16} />
               </button>
             </div>
             <div className="modal-body">
               <div className="form-group">
-                <label className="form-label">Select Symbol</label>
+                <label className="form-label">Zeichen wählen</label>
                 <div className="flex gap-2" style={{ flexWrap: 'wrap' }}>
                   {TRIGGER_SYMBOLS.map(symbol => (
                     <button
@@ -850,7 +850,7 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
               </div>
 
               <div className="form-group">
-                <label className="form-label">Custom Symbol</label>
+                <label className="form-label">Eigenes Zeichen</label>
                 <input
                   className="form-input font-mono"
                   style={{ width: 80, textAlign: 'center', fontSize: 18 }}
@@ -861,7 +861,7 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
               </div>
 
               <div className="form-group">
-                <label className="form-label">Apply To</label>
+                <label className="form-label">Anwenden auf</label>
                 <div className="flex flex-col gap-2">
                   <label className="flex items-center gap-2" style={{ cursor: 'pointer' }}>
                     <input
@@ -870,7 +870,7 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
                       checked={applyTo === 'new-only'}
                       onChange={() => setApplyTo('new-only')}
                     />
-                    <span className="text-sm">Only new snippets (existing triggers stay unchanged)</span>
+                    <span className="text-sm">Nur neue Snippets (bestehende Trigger bleiben unverändert)</span>
                   </label>
                   <label className="flex items-center gap-2" style={{ cursor: 'pointer' }}>
                     <input
@@ -879,21 +879,21 @@ export default function ConfigView({ configInfo, showToast, onHeaderActionsChang
                       checked={applyTo === 'all'}
                       onChange={() => setApplyTo('all')}
                     />
-                    <span className="text-sm">Replace all existing triggers (e.g. :hello → {newSymbol}hello)</span>
+                    <span className="text-sm">Alle bestehenden Trigger ersetzen (z. B. :hallo → {newSymbol}hallo)</span>
                   </label>
                 </div>
               </div>
 
               {applyTo === 'all' && (
                 <div className="text-xs" style={{ color: 'var(--warning)' }}>
-                  Warning: This will modify all your existing snippets. Make sure you have a backup.
+                  Achtung: Das ändert alle deine bestehenden Snippets. Stelle sicher, dass du eine Sicherung hast.
                 </div>
               )}
             </div>
             <div className="modal-footer">
-              <button className="btn" onClick={() => setShowTriggerModal(false)}>Cancel</button>
+              <button className="btn" onClick={() => setShowTriggerModal(false)}>Abbrechen</button>
               <button className="btn btn-primary" onClick={handleApplyTriggerSymbol}>
-                <IoCheckmark size={16} /> Apply
+                <IoCheckmark size={16} /> Anwenden
               </button>
             </div>
           </div>

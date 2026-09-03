@@ -17,13 +17,13 @@ export default function Titlebar() {
       <span className="titlebar-title">Espanso GUI</span>
       <div className="titlebar-spacer" onDoubleClick={() => window.windowControls.maximizeToggle()} />
       <div className="titlebar-controls">
-        <button className="titlebar-btn" onClick={() => window.windowControls.minimize()} title="Minimize">
+        <button className="titlebar-btn" onClick={() => window.windowControls.minimize()} title="Minimieren">
           <IoRemoveOutline size={16} />
         </button>
-        <button className="titlebar-btn" onClick={() => window.windowControls.maximizeToggle()} title={maximized ? 'Restore' : 'Maximize'}>
+        <button className="titlebar-btn" onClick={() => window.windowControls.maximizeToggle()} title={maximized ? 'Wiederherstellen' : 'Maximieren'}>
           {maximized ? <IoCopyOutline size={13} style={{ transform: 'scaleX(-1)' }} /> : <IoSquareOutline size={13} />}
         </button>
-        <button className="titlebar-btn titlebar-btn-close" onClick={() => window.windowControls.close()} title="Close">
+        <button className="titlebar-btn titlebar-btn-close" onClick={() => window.windowControls.close()} title="Schließen">
           <IoCloseOutline size={17} />
         </button>
       </div>

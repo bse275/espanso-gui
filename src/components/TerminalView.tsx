@@ -20,13 +20,13 @@ interface CommandResult {
 
 const QUICK_COMMANDS = [
   { label: 'Status', args: ['status'] },
-  { label: 'Start', args: ['start'] },
-  { label: 'Stop', args: ['stop'] },
-  { label: 'Restart', args: ['restart'] },
-  { label: 'Logs', args: ['log'] },
+  { label: 'Starten', args: ['start'] },
+  { label: 'Stoppen', args: ['stop'] },
+  { label: 'Neu starten', args: ['restart'] },
+  { label: 'Protokoll', args: ['log'] },
   { label: 'Version', args: ['--version'] },
-  { label: 'Path', args: ['path'] },
-  { label: 'Edit Config', args: ['edit', 'config/default.yml'] }
+  { label: 'Pfad', args: ['path'] },
+  { label: 'Konfig bearbeiten', args: ['edit', 'config/default.yml'] }
 ]
 
 export default function TerminalView({ showToast }: Props) {
@@ -82,10 +82,10 @@ export default function TerminalView({ showToast }: Props) {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div className="text-sm text-secondary">
-          Run espanso commands directly
+          Espanso-Befehle direkt ausführen
         </div>
         <button className="btn" onClick={clearHistory}>
-          <IoTrashOutline size={16} /> Clear
+          <IoTrashOutline size={16} /> Leeren
         </button>
       </div>
 
@@ -125,7 +125,7 @@ export default function TerminalView({ showToast }: Props) {
         >
           {history.length === 0 ? (
             <div className="text-muted">
-              <span style={{ color: 'var(--accent)' }}>$</span> Type a command or use the quick buttons above.
+              <span style={{ color: 'var(--accent)' }}>$</span> Gib einen Befehl ein oder nutze die Schnell-Schaltflächen oben.
             </div>
           ) : (
             history.map((item, i) => (
@@ -141,7 +141,7 @@ export default function TerminalView({ showToast }: Props) {
                 )}
                 {!item.stdout && !item.stderr && (
                   <div style={{ color: item.success ? 'var(--success)' : 'var(--danger)' }}>
-                    {item.success ? '✓ Command executed successfully' : '✗ Command failed'}
+                    {item.success ? '✓ Befehl erfolgreich ausgeführt' : '✗ Befehl fehlgeschlagen'}
                   </div>
                 )}
               </div>
@@ -149,7 +149,7 @@ export default function TerminalView({ showToast }: Props) {
           )}
           {running && (
             <div style={{ color: 'var(--text-muted)' }}>
-              <span style={{ color: 'var(--accent)' }}>$</span> Running...
+              <span style={{ color: 'var(--accent)' }}>$</span> Wird ausgeführt …
             </div>
           )}
         </div>
@@ -177,21 +177,21 @@ export default function TerminalView({ showToast }: Props) {
               fontFamily: 'var(--font-mono)',
               fontSize: 12
             }}
-            placeholder="espanso command..."
+            placeholder="espanso-Befehl …"
             value={command}
             onChange={e => setCommand(e.target.value)}
             disabled={running}
             autoFocus
           />
           <button type="submit" className="btn btn-sm btn-primary" disabled={running || !command.trim()}>
-            <IoPlay size={12} /> Run
+            <IoPlay size={12} /> Ausführen
           </button>
         </form>
       </div>
 
       <div className="text-xs text-muted mt-4">
         <IoSyncOutline size={12} style={{ verticalAlign: 'middle', marginRight: 4 }} />
-        Tip: Use <code className="font-mono">espanso restart</code> after making config changes to apply them.
+        Tipp: Führe nach Konfigurationsänderungen <code className="font-mono">espanso restart</code> aus, um sie zu übernehmen.
       </div>
     </div>
   )

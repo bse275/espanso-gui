@@ -87,7 +87,7 @@ export default function SnippetsView({ configInfo, showToast, createRequested, o
         showToast('error', result.error)
       }
     } catch (err) {
-      showToast('error', `Failed to load match files: ${(err as Error).message}`)
+      showToast('error', `Match-Dateien konnten nicht geladen werden: ${(err as Error).message}`)
     } finally {
       setFilesLoading(false)
     }
@@ -110,7 +110,7 @@ export default function SnippetsView({ configInfo, showToast, createRequested, o
         setView('snippets')
       }
     } catch (err) {
-      showToast('error', `Failed to load matches: ${(err as Error).message}`)
+      showToast('error', `Snippets konnten nicht geladen werden: ${(err as Error).message}`)
     }
   }, [showToast])
 
@@ -150,7 +150,7 @@ export default function SnippetsView({ configInfo, showToast, createRequested, o
     filename: string,
     newMatches: EspansoMatch[],
     newGlobalVars?: Record<string, VarDefinition>,
-    successMessage = 'Snippets saved'
+    successMessage = 'Snippets gespeichert'
   ) => {
     try {
       const content = buildMatchFileContent(
@@ -165,10 +165,10 @@ export default function SnippetsView({ configInfo, showToast, createRequested, o
         lastSavedGlobalVars.current = newGlobalVars ?? globalVars
         showToast('success', successMessage)
       } else {
-        showToast('error', `Failed to save: ${result.error}`)
+        showToast('error', `Speichern fehlgeschlagen: ${result.error}`)
       }
     } catch (err) {
-      showToast('error', `Failed to save: ${(err as Error).message}`)
+      showToast('error', `Speichern fehlgeschlagen: ${(err as Error).message}`)
     }
   }
 
@@ -179,7 +179,7 @@ export default function SnippetsView({ configInfo, showToast, createRequested, o
   const saveGlobalVarsIfDirty = () => {
     if (!selectedFile) return
     if (JSON.stringify(globalVars) === JSON.stringify(lastSavedGlobalVars.current)) return
-    saveMatches(selectedFile, matches, globalVars, 'Extensions saved')
+    saveMatches(selectedFile, matches, globalVars, 'Erweiterungen gespeichert')
   }
 
   const switchSubTab = (next: 'snippets' | 'extensions' | 'forms') => {
@@ -197,7 +197,7 @@ export default function SnippetsView({ configInfo, showToast, createRequested, o
       const { selectedFile, matches, globalVars } = latestRef.current
       if (!selectedFile) return
       if (JSON.stringify(globalVars) === JSON.stringify(lastSavedGlobalVars.current)) return
-      saveMatches(selectedFile, matches, globalVars, 'Extensions saved')
+      saveMatches(selectedFile, matches, globalVars, 'Erweiterungen gespeichert')
     }
     // Runs once on mount; the cleanup fires on unmount and reads the
     // latest state from latestRef.
@@ -226,14 +226,14 @@ export default function SnippetsView({ configInfo, showToast, createRequested, o
     // Validate trigger
     const triggers = getMatchTriggers(match)
     if (triggers.length === 0 && !match.regex) {
-      showToast('error', 'A trigger is required')
+      showToast('error', 'Ein Trigger ist erforderlich')
       return
     }
 
     // Check for duplicate triggers
     for (const trigger of triggers) {
       if (triggerExists(matches, trigger, editingIndex ?? undefined)) {
-        showToast('error', `Trigger "${trigger}" already exists`)
+        showToast('error', `Trigger „${trigger}“ existiert bereits`)
         return
       }
     }
@@ -263,33 +263,33 @@ export default function SnippetsView({ configInfo, showToast, createRequested, o
   const handleCreateFile = async () => {
     const filename = newFileName.trim().endsWith('.yml') ? newFileName.trim() : `${newFileName.trim()}.yml`
     if (!filename || filename === '.yml') {
-      showToast('error', 'Please enter a file name')
+      showToast('error', 'Bitte gib einen Dateinamen ein')
       return
     }
     const result = await window.espansoAPI.createMatchFile(filename)
     if (result.success) {
       setShowNewFileModal(false)
       setNewFileName('')
-      showToast('success', `Created ${filename}`)
+      showToast('success', `${filename} erstellt`)
       // Leaving the current file (possibly mid-edit on Extensions/Forms) -
       // write pending vars before switching, or they'd be lost.
       saveGlobalVarsIfDirty()
       await loadFiles()
       setSelectedFile(filename)
     } else {
-      showToast('error', result.error || 'Failed to create file')
+      showToast('error', result.error || 'Datei konnte nicht erstellt werden')
     }
   }
 
   const handleDeleteFile = async (filename: string) => {
-    if (!confirm(`Delete ${filename}? This cannot be undone.`)) return
+    if (!confirm(`${filename} löschen? Das kann nicht rückgängig gemacht werden.`)) return
     // Deleting a *different* file than the one being edited shouldn't lose
     // pending Extensions/Forms edits; deleting the current file makes them
     // moot.
     if (filename !== selectedFile) saveGlobalVarsIfDirty()
     const result = await window.espansoAPI.deleteMatchFile(filename)
     if (result.success) {
-      showToast('success', `Deleted ${filename}`)
+      showToast('success', `${filename} gelöscht`)
       if (selectedFile === filename) {
         setSelectedFile(null)
         setMatches([])
@@ -298,7 +298,7 @@ export default function SnippetsView({ configInfo, showToast, createRequested, o
       }
       await loadFiles()
     } else {
-      showToast('error', result.error || 'Failed to delete file')
+      showToast('error', result.error || 'Datei konnte nicht gelöscht werden')
     }
   }
 
@@ -309,10 +309,10 @@ export default function SnippetsView({ configInfo, showToast, createRequested, o
         setRawContent(result.content || '')
         setRawEditFile(filename)
       } else {
-        showToast('error', result.error || 'Failed to load file')
+        showToast('error', result.error || 'Datei konnte nicht geladen werden')
       }
     } catch (err) {
-      showToast('error', `Failed to load file: ${(err as Error).message}`)
+      showToast('error', `Datei konnte nicht geladen werden: ${(err as Error).message}`)
     }
   }
 
@@ -322,16 +322,16 @@ export default function SnippetsView({ configInfo, showToast, createRequested, o
     try {
       const result = await window.espansoAPI.writeMatchFile(rawEditFile, rawContent)
       if (result.success) {
-        showToast('success', 'File saved')
+        showToast('success', 'Datei gespeichert')
         if (rawEditFile === selectedFile) {
           await loadMatches(rawEditFile)
         }
         setRawEditFile(null)
       } else {
-        showToast('error', `Failed to save: ${result.error}`)
+        showToast('error', `Speichern fehlgeschlagen: ${result.error}`)
       }
     } catch (err) {
-      showToast('error', `Failed to save: ${(err as Error).message}`)
+      showToast('error', `Speichern fehlgeschlagen: ${(err as Error).message}`)
     } finally {
       setRawSaving(false)
     }
@@ -343,7 +343,7 @@ export default function SnippetsView({ configInfo, showToast, createRequested, o
       setCopiedTrigger(trigger)
       setTimeout(() => setCopiedTrigger(null), 2000)
     } catch {
-      showToast('error', 'Failed to copy')
+      showToast('error', 'Kopieren fehlgeschlagen')
     }
   }
 
@@ -362,31 +362,31 @@ export default function SnippetsView({ configInfo, showToast, createRequested, o
           <IoSearchOutline size={16} className="search-icon" />
           <input
             className="form-input"
-            placeholder="Search snippets..."
+            placeholder="Snippets durchsuchen …"
             value={search}
             onChange={e => setSearch(e.target.value)}
           />
         </div>
         <button className="btn btn-primary" onClick={handleCreateMatch} disabled={!selectedFile}>
-          <IoAdd size={16} /> New Snippet
+          <IoAdd size={16} /> Neues Snippet
         </button>
       </div>
 
       {filesLoading && files.length === 0 ? (
         <div className="text-sm text-muted" style={{ padding: '12px 0' }}>
-          Loading match files...
+          Match-Dateien werden geladen …
         </div>
       ) : files.length === 0 ? (
         <div className="empty-state">
           <div className="empty-state-icon">
             <IoDocumentAttachOutline size={24} />
           </div>
-          <div className="empty-state-title">No match files found</div>
+          <div className="empty-state-title">Keine Match-Dateien gefunden</div>
           <div className="empty-state-desc">
-            Create a new match file to start adding snippets. Match files are stored in the espanso match directory.
+            Lege eine neue Match-Datei an, um Snippets hinzuzufügen. Match-Dateien liegen im Match-Verzeichnis von Espanso.
           </div>
           <button className="btn btn-lg btn-primary" onClick={() => setShowNewFileModal(true)}>
-            <IoAddOutline size={16} /> Create Match File
+            <IoAddOutline size={16} /> Match-Datei erstellen
           </button>
         </div>
       ) : (
@@ -403,20 +403,20 @@ export default function SnippetsView({ configInfo, showToast, createRequested, o
                 <span
                   className="file-tab-delete"
                   onClick={(e) => { e.stopPropagation(); openRawEditor(file.name) }}
-                  title="View raw YAML"
+                  title="Rohes YAML anzeigen"
                 >
                   <IoCodeSlashOutline size={11} />
                 </span>
                 <span
                   className="file-tab-delete"
                   onClick={(e) => { e.stopPropagation(); handleDeleteFile(file.name) }}
-                  title="Delete file"
+                  title="Datei löschen"
                 >
                   <IoTrashOutline size={11} />
                 </span>
               </div>
             ))}
-            <div className="file-tab-add" onClick={() => setShowNewFileModal(true)} title="New match file">
+            <div className="file-tab-add" onClick={() => setShowNewFileModal(true)} title="Neue Match-Datei">
               <IoAddOutline size={14} />
             </div>
           </div>
@@ -433,20 +433,20 @@ export default function SnippetsView({ configInfo, showToast, createRequested, o
                     className={`tab ${view === 'extensions' ? 'active' : ''}`}
                     onClick={() => switchSubTab('extensions')}
                   >
-                    <IoFlashOutline size={14} /> Extensions
+                    <IoFlashOutline size={14} /> Erweiterungen
                   </button>
                   <button
                     className={`tab ${view === 'forms' ? 'active' : ''}`}
                     onClick={() => switchSubTab('forms')}
                   >
-                    Forms
+                    Formulare
                   </button>
                 </div>
 
                 {(view === 'extensions' || view === 'forms') && (
                   <div>
                     <div className="text-xs text-muted mb-4">
-                      Shared by every snippet in <span className="font-mono">{selectedFile}</span>.
+                      Wird von jedem Snippet in <span className="font-mono">{selectedFile}</span> genutzt.
                     </div>
                     <VarEditor
                       vars={globalVars}
@@ -459,7 +459,7 @@ export default function SnippetsView({ configInfo, showToast, createRequested, o
 
                 {view === 'snippets' && (loadedFile !== selectedFile ? (
                   <div className="text-sm text-muted" style={{ padding: '12px 0' }}>
-                    Loading snippets...
+                    Snippets werden geladen …
                   </div>
                 ) : filteredMatches.length === 0 ? (
                   <div className="empty-state">
@@ -467,14 +467,14 @@ export default function SnippetsView({ configInfo, showToast, createRequested, o
                       <IoSearchOutline size={24} />
                     </div>
                     <div className="empty-state-title">
-                      {search ? 'No matching snippets' : 'No snippets yet'}
+                      {search ? 'Keine passenden Snippets' : 'Noch keine Snippets'}
                     </div>
                     <div className="empty-state-desc">
-                      {search ? 'Try a different search term.' : 'Create your first snippet to get started.'}
+                      {search ? 'Versuch einen anderen Suchbegriff.' : 'Lege dein erstes Snippet an, um loszulegen.'}
                     </div>
                     {!search && (
                       <button className="btn btn-lg btn-primary" onClick={handleCreateMatch}>
-                        <IoAddOutline size={16} /> New Snippet
+                        <IoAddOutline size={16} /> Neues Snippet
                       </button>
                     )}
                   </div>
@@ -498,34 +498,34 @@ export default function SnippetsView({ configInfo, showToast, createRequested, o
                               <div className="match-trigger" style={{ color: 'var(--warning)' }}>regex</div>
                             )}
                             {triggers.length > 1 && (
-                              <div className="text-xs text-muted">+{triggers.length - 1} more</div>
+                              <div className="text-xs text-muted">+{triggers.length - 1} weitere</div>
                             )}
                           </div>
                           <div className="match-replace">
-                            {getMatchReplacement(match) || <span className="text-muted">No replacement</span>}
+                            {getMatchReplacement(match) || <span className="text-muted">Keine Ersetzung</span>}
                           </div>
                           <span className={`badge badge-${type}`}>
-                            {type === 'static' ? 'Static' : type === 'form' ? 'Form' : type === 'regex' ? 'Regex' : 'Dynamic'}
+                            {type === 'static' ? 'Statisch' : type === 'form' ? 'Formular' : type === 'regex' ? 'Regex' : 'Dynamisch'}
                           </span>
                           <div className="match-actions">
                             <button
                               className="btn btn-icon btn-sm"
                               onClick={(e) => { e.stopPropagation(); copyTrigger(triggers[0] || '') }}
-                              title="Copy trigger"
+                              title="Trigger kopieren"
                             >
                               {copiedTrigger === triggers[0] ? <IoCheckmark size={14} color="var(--success)" /> : <IoCopyOutline size={14} />}
                             </button>
                             <button
                               className="btn btn-icon btn-sm"
                               onClick={(e) => { e.stopPropagation(); handleEditMatch(originalIndex) }}
-                              title="Edit"
+                              title="Bearbeiten"
                             >
                               <IoPencilOutline size={14} />
                             </button>
                             <button
                               className="btn btn-icon btn-sm"
                               onClick={(e) => { e.stopPropagation(); handleDeleteMatch(originalIndex) }}
-                              title="Delete"
+                              title="Löschen"
                             >
                               <IoTrashOutline size={14} color="var(--danger)" />
                             </button>
@@ -541,9 +541,9 @@ export default function SnippetsView({ configInfo, showToast, createRequested, o
                 <div className="empty-state-icon">
                   <IoChevronForward size={24} />
                 </div>
-                <div className="empty-state-title">Select a match file</div>
+                <div className="empty-state-title">Match-Datei auswählen</div>
                 <div className="empty-state-desc">
-                  Choose a file from the list to view and edit its snippets.
+                  Wähle eine Datei aus der Liste, um ihre Snippets anzusehen und zu bearbeiten.
                 </div>
               </div>
             )}
@@ -568,17 +568,17 @@ export default function SnippetsView({ configInfo, showToast, createRequested, o
         <div className="modal-overlay" onClick={() => setShowNewFileModal(false)}>
           <div className="modal" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
-              <div className="modal-title">Create Match File</div>
+              <div className="modal-title">Match-Datei erstellen</div>
               <button className="btn btn-icon btn-sm" onClick={() => setShowNewFileModal(false)}>
                 <IoCloseOutline size={16} />
               </button>
             </div>
             <div className="modal-body">
               <div className="form-group">
-                <label className="form-label">File name</label>
+                <label className="form-label">Dateiname</label>
                 <input
                   className="form-input"
-                  placeholder="my-snippets.yml"
+                  placeholder="meine-snippets.yml"
                   value={newFileName}
                   onChange={e => setNewFileName(e.target.value)}
                   onKeyDown={e => { if (e.key === 'Enter') handleCreateFile() }}
@@ -587,9 +587,9 @@ export default function SnippetsView({ configInfo, showToast, createRequested, o
               </div>
             </div>
             <div className="modal-footer">
-              <button className="btn" onClick={() => setShowNewFileModal(false)}>Cancel</button>
+              <button className="btn" onClick={() => setShowNewFileModal(false)}>Abbrechen</button>
               <button className="btn btn-primary" onClick={handleCreateFile}>
-                <IoAddOutline size={16} /> Create
+                <IoAddOutline size={16} /> Erstellen
               </button>
             </div>
           </div>
@@ -608,7 +608,7 @@ export default function SnippetsView({ configInfo, showToast, createRequested, o
             </div>
             <div className="modal-body">
               <div className="text-xs text-muted mb-2">
-                Edit the raw YAML directly. Be careful - invalid YAML will break espanso.
+                Bearbeite das YAML direkt. Vorsicht – ungültiges YAML macht Espanso funktionsunfähig.
               </div>
               <textarea
                 className="code-editor"
@@ -619,9 +619,9 @@ export default function SnippetsView({ configInfo, showToast, createRequested, o
               />
             </div>
             <div className="modal-footer">
-              <button className="btn" onClick={() => setRawEditFile(null)}>Cancel</button>
+              <button className="btn" onClick={() => setRawEditFile(null)}>Abbrechen</button>
               <button className="btn btn-primary" onClick={saveRawEditor} disabled={rawSaving}>
-                <IoSaveOutline size={16} /> {rawSaving ? 'Saving...' : 'Save'}
+                <IoSaveOutline size={16} /> {rawSaving ? 'Wird gespeichert …' : 'Speichern'}
               </button>
             </div>
           </div>
