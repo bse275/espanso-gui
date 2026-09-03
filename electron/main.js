@@ -4,6 +4,18 @@ const fs = require('fs');
 const os = require('os');
 const { execFile, execFileSync } = require('child_process');
 
+// Linux: the compositor links a window to its .desktop entry (and thus its
+// icon in the taskbar/dock) by matching the window's app_id / WM_CLASS.
+// Electron derives that from the app name, which would otherwise be
+// "Espanso GUI" - a space and capitals match no .desktop file. Pin it to
+// the desktop-file id. Keep userData where it was so existing GUI prefs
+// (theme, welcome flag) aren't orphaned by the rename.
+if (process.platform === 'linux') {
+  const userDataPath = app.getPath('userData');
+  app.setName('espanso-gui');
+  app.setPath('userData', userDataPath);
+}
+
 let mainWindow = null;
 
 function defaultConfigDir() {
